@@ -25,7 +25,7 @@ import numpy as np
 #####################################
 class Quantifier1(object):
 
-    # 4 chars: A cap B, A - B, B - A, M - (A cup B)
+    # 4 chars: A∩B, A\B, B\A, M \ (A∩B)
     num_chars = 4
     # chars = one-hot encoding
     chars = np.identity(num_chars)
