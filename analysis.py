@@ -46,8 +46,8 @@ def experiment_analysis(path, quants, trials=range(30), plots=True):
         make_barplots(convergence_points, quants)
         make_plot(data, quants, ylim=(0.8, 1))
 
-    print stats.ttest_rel(convergence_points[quants[0]],
-                          convergence_points[quants[1]])
+    print(stats.ttest_rel(convergence_points[quants[0]],
+                          convergence_points[quants[1]]))
 
 
 def experiment_one_a_analysis():
@@ -80,7 +80,7 @@ def remove_bad_trials(data, threshold=0.97):
     # a trial is bad if the forward mean never hit 0.99
     bad_trials = [idx for idx, thresh in enumerate(threshold_pos)
                   if thresh is None]
-    print 'Number of bad trials: {}'.format(len(bad_trials))
+    print('Number of bad trials: {}'.format(len(bad_trials)))
     for trial in bad_trials:
         del data[trial]
 
@@ -134,8 +134,8 @@ def forward_means(arr, window_size=250):
     Returns:
         a list, of same length as arr, with the forward means
     """
-    return [(sum(arr[idx:min(idx + window_size, len(arr))])
-             / min(window_size, len(arr) - idx))
+    return [(sum(arr[idx:min(idx + window_size, len(arr))]) /
+             min(window_size, len(arr) - idx))
             for idx in range(len(arr))]
 
 
