@@ -154,7 +154,7 @@ def lstm_model_fn(features, labels, mode, params):
     target_by_quant = tf.dynamic_partition(
         target, quant_indices, num_quants)
 
-    for idx in xrange(num_quants):
+    for idx in range(num_quants):
         key = '{}_accuracy'.format(params['quantifiers'][idx]._name)
         eval_metrics[key] = tf.metrics.accuracy(
             target_by_quant[idx], prediction_by_quant[idx])
@@ -395,6 +395,7 @@ if __name__ == '__main__':
         'three': experiment_three,
         'test': test
     }
+
     func = func_map[args.exp]
 
     if args.out_path:
