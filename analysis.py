@@ -134,8 +134,8 @@ def forward_means(arr, window_size=250):
     Returns:
         a list, of same length as arr, with the forward means
     """
-    return [(sum(arr[idx:min(idx+window_size, len(arr))])
-             / min(window_size, len(arr)-idx))
+    return [(sum(arr[idx:min(idx + window_size, len(arr))])
+             / min(window_size, len(arr) - idx))
             for idx in range(len(arr))]
 
 
@@ -261,7 +261,7 @@ def make_boxplots(convergence_points, quants):
         quants: names of quantifiers
     """
     plt.boxplot([convergence_points[quant] for quant in quants])
-    plt.xticks(range(1, len(quants)+1), quants)
+    plt.xticks(range(1, len(quants) + 1), quants)
     plt.show()
 
 
@@ -282,7 +282,7 @@ def make_barplots(convergence_points, quants):
     stds = {pair: np.std(diffs[pair]) for pair in pairs}
     intervals = {pair: stats.norm.interval(
         0.95, loc=means[pair],
-        scale=stds[pair]/np.sqrt(len(diffs[pair])))
+        scale=stds[pair] / np.sqrt(len(diffs[pair])))
         for pair in pairs}
 
     # plotting info
@@ -313,6 +313,6 @@ def smooth_data(data, smooth_weight=0.9):
     prev = data[0]
     smoothed = []
     for point in data:
-        smoothed.append(prev*smooth_weight + point*(1-smooth_weight))
+        smoothed.append(prev * smooth_weight + point * (1 - smooth_weight))
         prev = smoothed[-1]
     return smoothed

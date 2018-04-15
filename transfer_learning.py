@@ -28,8 +28,8 @@ import quant_verify
 def transfer_lstm_model_fn(features, labels, mode, params):
 
     # how big each input will be
-    num_quants = len(params['quantifiers'])
-    item_size = quantifiers.Quantifier.num_chars + num_quants
+    # num_quants = len(params['quantifiers'])
+    # item_size = quantifiers.Quantifier.num_chars + num_quants
 
     # -- input_models: [batch_size, max_len, item_size]
     input_models = features[quant_verify.INPUT_FEATURE]
@@ -73,8 +73,8 @@ def transfer_lstm_model_fn(features, labels, mode, params):
     flat_output = tf.reshape(output, [-1, params['hidden_size']])
     # -- indices: [batch_size]
     output_length = tf.shape(output)[0]
-    indices = (tf.range(0, output_length) * params['max_len']
-               + (lengths - 1))
+    indices = (tf.range(0, output_length) * params['max_len'] +
+               (lengths - 1))
     # -- final_output: [batch_size, out_size]
     final_output = tf.gather(flat_output, indices)
     tf.summary.histogram('final_output', final_output)
@@ -150,7 +150,7 @@ def transfer_test():
     predictions = list(model.predict(input_fn=predict_input_fn))
     for idx in range(5):
         print ('input: {}\nprobs: {}\n'.format(some_inputs[idx],
-                                              predictions[idx]['probs']))
+                                               predictions[idx]['probs']))
 
 
 if __name__ == '__main__':

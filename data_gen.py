@@ -1,4 +1,3 @@
-
 """
 Copyright (C) 2017 Shane Steinert-Threlkeld
 
@@ -90,7 +89,7 @@ class DataGenerator(object):
             integer up to self._num_quants
         """
         quant = np.random.randint(self._num_quants)
-        length = np.random.randint(1, self._max_len+1)
+        length = np.random.randint(1, self._max_len + 1)
         seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
                      for _ in range(length)))
         return seq, quant
@@ -146,8 +145,8 @@ class DataGenerator(object):
 
         chars = tuple(quantifiers.Quantifier.chars[idx] for idx in char_seq)
         padded_seq = (chars +
-                      (quantifiers.Quantifier.zero_char,)
-                      * (self._max_len - len(chars)))
+                      (quantifiers.Quantifier.zero_char,) *
+                      (self._max_len - len(chars)))
         padded_with_quant = tuple(
             np.concatenate([char, self._quant_labels[quant_idx]])
             for char in padded_seq)
@@ -172,14 +171,14 @@ class DataGenerator(object):
         """
 
         self._labeled_data = []
-        total_possible = self._num_quants*sum(
+        total_possible = self._num_quants * sum(
             quantifiers.Quantifier.num_chars**i
-            for i in range(1, self._max_len+1))
+            for i in range(1, self._max_len + 1))
 
         # if the total possible data pool is smaller than requested,
         # just generate all of it
         if total_possible <= num_data_points:
-            print( 'generating all')
+            print('generating all')
             for tup in self._generate_sequences():
                 self._labeled_data.append(
                     self._point_from_tuple(tup))
@@ -254,8 +253,8 @@ class DataGenerator(object):
 
         split = self._training_split
 
-        num_train_bins = max(1, int(split*num_files))
-        num_test_bins = max(1, int((1-split)*num_files))
+        num_train_bins = max(1, int(split * num_files))
+        num_test_bins = max(1, int((1 - split) * num_files))
 
         train_input_filenames = ['{}train_input_{}.txt'.format(file_path, idx)
                                  for idx in range(num_train_bins)]
@@ -293,7 +292,7 @@ class DataGenerator(object):
                     self._label_to_str(eg_label) + '\n')
 
         t1 = time.time()
-        print ('initial loop took: {} seconds'.format(t1-t0))
+        print ('initial loop took: {} seconds'.format(t1 - t0))
 
         # make sure all the data has been written, move buffers back to start
         for f in (train_input_files + train_label_files +
@@ -305,8 +304,8 @@ class DataGenerator(object):
         t2 = time.time()
         print ('randomizing each file')
         # randomize each file
-        for infile, label_file in (zip(train_input_files, train_label_files)
-                                   + zip(test_input_files, test_label_files)):
+        for infile, label_file in (zip(train_input_files, train_label_files) +
+                                   zip(test_input_files, test_label_files)):
             inputs = infile.readlines()
             labels = label_file.readlines()
             assert len(inputs) == len(labels)
@@ -322,8 +321,8 @@ class DataGenerator(object):
             label_file.close()
         t3 = time.time()
 
-        print ('randomization took: {} seconds'.format(t3-t2))
-        print ('total time to write data: {} seconds'.format(t3-t0))
+        print ('randomization took: {} seconds'.format(t3 - t2))
+        print ('total time to write data: {} seconds'.format(t3 - t0))
 
     def _input_to_str(self, seq):
         """Generates string for a nested list, corresponding to one input

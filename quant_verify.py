@@ -87,8 +87,8 @@ def lstm_model_fn(features, labels, mode, params):
     flat_output = tf.reshape(output, [-1, params['hidden_size']])
     # -- indices: [batch_size]
     output_length = tf.shape(output)[0]
-    indices = (tf.range(0, output_length) * params['max_len']
-               + (lengths - 1))
+    indices = (tf.range(0, output_length) * params['max_len'] +
+               (lengths - 1))
     # -- final_output: [batch_size, out_size]
     final_output = tf.gather(flat_output, indices)
     tf.summary.histogram('final_output', final_output)
@@ -198,7 +198,7 @@ class EvalEarlyStopHook(tf.train.SessionRunHook):
     def after_run(self, run_context, run_values):
 
         global_step = run_values.results['global_step']
-        if (global_step-1) % self._num_steps == 0:
+        if (global_step - 1) % self._num_steps == 0:
             ev_results = self._estimator.evaluate(input_fn=self._input_fn)
 
             print ('')

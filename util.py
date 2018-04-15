@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
 
 from tensorboard.backend.event_processing \
-        import event_accumulator as ea
+    import event_accumulator as ea
 import pandas as pd
 
 
