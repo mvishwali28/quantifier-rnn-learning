@@ -201,10 +201,10 @@ class EvalEarlyStopHook(tf.train.SessionRunHook):
         if (global_step-1) % self._num_steps == 0:
             ev_results = self._estimator.evaluate(input_fn=self._input_fn)
 
-            print ''
+            print ('')
             for key, value in ev_results.items():
                 self._results[key].append(value)
-                print '{}: {}'.format(key, value)
+                print ('{}: {}'.format(key, value))
 
             # TODO: add running total accuracy or other complex stop condition?
             if ev_results['loss'] < self._stop_loss:
@@ -266,7 +266,7 @@ def run_trial(eparams, hparams, trial_num,
         batch_size=len(test_x),
         shuffle=False)
 
-    print '\n------ TRIAL {} -----'.format(trial_num)
+    print ('\n------ TRIAL {} -----'.format(trial_num))
 
     # train and evaluate model together, using the Hook
     model.train(input_fn=train_input_fn,

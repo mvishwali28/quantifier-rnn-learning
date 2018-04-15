@@ -17,11 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 import numpy as np
 import gc
-
+q = []
 
 class Quantifier(object):
 
     # 4 chars: A cap B, A - B, B - A, M - (A cup B)
+    #10 quantifiers
     num_chars = 4
     # chars = one-hot encoding
     chars = np.identity(num_chars)
@@ -46,11 +47,11 @@ class Quantifier(object):
             raise ValueError("supply a function for verifying a quantifier!")
 
         self._name = name
-        self._isom = isom
+        # self._isom = isom
         self._cons = cons
-        self._lcons = lcons
-        self._rmon = rmon
-        self._lmon = lmon
+        # self._lcons = lcons
+        # self._rmon = rmon
+        # self._lmon = lmon
         self._verify = fn
 
     def __call__(self, seq):
@@ -67,6 +68,7 @@ def all_ver(seq):
         Quantifier.T iff there are no Quantifier.AnotBs in seq
     """
     for item in seq:
+        print(item)
         if np.array_equal(item, Quantifier.AnotB):
             return Quantifier.F
     return Quantifier.T
@@ -75,6 +77,7 @@ def all_ver(seq):
 every = Quantifier("every",
         isom=True, cons=True, lcons=False, rmon=True, lmon=False,
         fn=all_ver)
+q.append(every)
 
 
 def notall_ver(seq):
@@ -95,7 +98,7 @@ def notall_ver(seq):
 nall = Quantifier("not_all",
         isom=True, cons=True, lcons=False, rmon=False, lmon=True,
         fn=notall_ver)
-
+q.append(nall)
 
 def no_ver(seq):
     """Verifies whether no As are Bs in a sequence.
@@ -115,7 +118,7 @@ def no_ver(seq):
 no = Quantifier("no",
         isom=True, cons=True, lcons=False, rmon=False, lmon=False,
         fn=no_ver)
-
+q.append(no)
 
 def only_ver(seq):
     """Verifies whether only As are Bs in a sequence.
@@ -135,7 +138,7 @@ def only_ver(seq):
 only = Quantifier("only",
         isom=True, cons=False, lcons=True, rmon=False, lmon=True,
         fn=only_ver)
-
+q.append(only)
 
 def notonly_ver(seq):
     """Verifies whether not only As are Bs in a sequence.
@@ -155,8 +158,7 @@ def notonly_ver(seq):
 notonly = Quantifier("not_only",
         isom=True, cons=False, lcons=True, rmon=True, lmon=False,
         fn=notonly_ver)
-
-
+q.append(notonly)
 def even_ver(seq):
     """Verifies whether the number of As that are B is even.
 
@@ -179,8 +181,7 @@ def even_ver(seq):
 even = Quantifier("even",
         isom=True, cons=True, lcons=True, rmon=None, lmon=None,
         fn=even_ver)
-
-
+q.append(even)
 def odd_ver(seq):
     """Verifies whether the number of As that are B is odd.
 
@@ -197,7 +198,7 @@ odd = Quantifier("odd",
         isom=True, cons=True, lcons=True, rmon=None, lmon=None,
         fn=odd_ver)
 
-
+q.append(odd)
 def at_least_n_ver(seq, n):
     """Verifies whether |A cap B| > n.
 
@@ -234,8 +235,8 @@ def at_least_n(n):
 
 some = at_least_n(1)
 at_least_three = at_least_n(3)
-
-
+q.append(some)
+q.append(at_least_three)
 def at_most_n_ver(seq, n):
     """Verifies whether |A cap B| <= n.
 
@@ -302,7 +303,7 @@ def exactly_n(n):
 
 
 exactly_three = exactly_n(3)
-
+q.append(exactly_three)
 
 def between_m_and_n_ver(seq, m, n):
     """Verifies whether m <= |A cap B| <= n.
@@ -382,7 +383,7 @@ most = Quantifier("most",
         isom=True, cons=True, lcons=False, rmon=True, lmon=None,
         fn=most_ver)
 
-
+q.append(most)
 def first_n_ver(seq, n):
     """Verifies whether the first n As are also Bs.
 
@@ -429,7 +430,7 @@ def first_n(n):
 
 
 first_three = first_n(3)
-
+q.append(first_three)
 
 def equal_number_ver(seq):
     """Generates a Quantifier corresponding to
@@ -456,7 +457,7 @@ def equal_number_ver(seq):
 equal_number = Quantifier("equal_number",
         isom=True, cons=False, lcons=False, rmon=None, lmon=None,
         fn=equal_number_ver)
-
+q.append(equal_number)
 
 def or_ver(q1, q2, seq):
 
@@ -466,6 +467,7 @@ def or_ver(q1, q2, seq):
 
 
 def at_least_n_or_at_most_m(n, m):
+    print("")
     return Quantifier("at_least_{}_or_at_most_{}".format(n, m),
             isom=True, cons=True, lcons=False, rmon=False, lmon=False,
             fn = lambda seq: or_ver(
@@ -476,8 +478,12 @@ def at_least_n_or_at_most_m(n, m):
 def get_all_quantifiers():
     """Returns: a list of all Quantifiers that have been created so far.
     """
-    return [quant for quant in gc.get_objects()
-            if isinstance(quant, Quantifier)]
+    for temp in q:
+        print(temp._name)
+    print([i._name for i in q if isinstance(i,Quantifier)])
+    return [i for i in q if isinstance(i,Quantifier)]
+    # return [quant for quant in gc.get_objects()
+    #         if isinstance(quant, Quantifier)]
 
 
 def get_nonparity_quantifiers():
