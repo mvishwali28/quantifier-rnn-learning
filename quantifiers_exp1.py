@@ -265,7 +265,7 @@ q.append(no_more)
 def get_all_quantifiers():
     """Returns: a list of all Quantifiers that have been created so far.
     """
-    print([i._name for i in q if isinstance(i,Quantifier)])
-    return [i for i in q if isinstance(i,Quantifier)]
+    print([i._name for i in q if isinstance(i,Quantifier1)])
+    return [i for i in q if isinstance(i,Quantifier1)]
     # return [quant for quant in gc.get_objects()
     #         if isinstance(quant, Quantifier)]
