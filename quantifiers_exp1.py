@@ -150,23 +150,24 @@ def butfor3AnonB_ver(seq):
 
 
 # Non-conservative quantifiers
-# Equal AB
+# Equal AnonB
 def equal_number_ver(seq):
     """
-    Verifies if the number of As equals the number of Bs.
+    Verifies if the number of As equals the number of Bs that are not As.
     :param seq: sequence of elements of R^4
-    :return: Quantifier.T iff the number of Quantifier.AnotBs is
-             the same as the number of Quanitifer.BnotAs
+    :return: Quantifier1.T iff the number of Quantifier1.AnotBs + Quantifier1.ABs is
+             the same as the number of Quanitifer1.BnotAs
     """
 
-    num_AnotB, num_BnotA = 0, 0
+    num_A, num_BnotA = 0, 0
     for item in seq:
-        if np.array_equal(item, Quantifier1.AnotB):
-            num_AnotB += 1
+        if np.array_equal(item, Quantifier1.AnotB) or np.array_equal(item, Quantifier1.AB):
+            num_A += 1
         elif np.array_equal(item, Quantifier1.BnotA):
             num_BnotA += 1
+         
 
-    if num_AnotB == num_BnotA:
+    if num_A == num_BnotA:
         return Quantifier1.T
     return Quantifier1.F
 
@@ -176,10 +177,10 @@ def equal_number_ver(seq):
 # Non-equal AB
 def nonequal_number_ver(seq):
     """
-    Verifies if the number of As does not equal the number of Bs.
+    Verifies if the number of As does not equal the number of Bs that are not As.
     :param seq: sequence of elements of R^4
-    :return: Quantifier.T iff the number of Quantifier.AnotBs is
-             not the same as the number of Quanitifer.BnotAs
+    :return: Quantifier1.T iff the number of Quantifier1.AnotBs + Quantifier1.ABs is
+             not the same as the number of Quanitifer1.BnotAs
     """
     if equal_number_ver(seq) == Quantifier1.F:
         return Quantifier1.T
@@ -192,8 +193,8 @@ def more_ver(seq):
     """
     Verifies if the number of As is more than the number of Bs.
     :param seq: sequence of elements of R^4
-    :return: Quantifier.T iff the number of Quantifier.AnotBs is
-             bigger than the number of Quanitifer.BnotAs
+    :return: Quantifier1.T iff the number of Quantifier1.AnotBs is
+             bigger than the number of Quanitifer1.BnotAs
     """
     num_AnotB, num_BnotA = 0, 0
     for item in seq:
@@ -213,8 +214,8 @@ def less_ver(seq):
     """
     Verifies if the number of As is less than the number of Bs.
     :param seq: sequence of elements of R^4
-    :return: Quantifier.T iff the number of Quantifier.AnotBs is
-             smaller than the number of Quanitifer.BnotAs
+    :return: Quantifier1.T iff the number of Quantifier1.AnotBs is
+             smaller than the number of Quanitifer1.BnotAs
     """
     num_AnotB, num_BnotA = 0, 0
     for item in seq:
@@ -234,8 +235,8 @@ def no_more_ver(seq):
     """
     Verifies if the number of As is no more than the number of Bs.
     :param seq: sequence of elements of R^4
-    :return: Quantifier.T iff the number of Quantifier.AnotBs is not
-             bigger than the number of Quanitifer.BnotAs
+    :return: Quantifier1.T iff the number of Quantifier1.AnotBs is not
+             bigger than the number of Quanitifer1.BnotAs
     """
     if more_ver(seq) == Quantifier1.F:
         return Quantifier1.T
