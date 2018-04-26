@@ -164,24 +164,25 @@ q.append(butfor3AnonB)
 ## Equal AB
 def equal_number_ver(lst):
     """
-    Verifies if the number of As (arg1) equals the number of Bs (arg2).
+    Verifies if the number of As (arg1) equals the number of 
+    Bs (arg2) that are not As.
     :param lst: a list of: a sequence of elements of R^4 (seq),
                 digit (A: 1-4), digit (B: 1-4)
-    :return: Quantifier2.T iff the number of As that are not Bs equals
+    :return: Quantifier2.T iff the number of As equals
              the number of Bs that are not As
     """
     seq = lst[0]
     arg1 = lst[1]
     arg2 = lst[2]
-    num_AnotB, num_BnotA = 0, 0
+    num_A, num_BnotA = 0, 0
 
     for item in seq:
-        if item[arg1 - 1] == 1 and item[arg2 - 1] == 0:
-            num_AnotB += 1
+        if item[arg1 - 1] == 1:
+            num_A += 1
         if item[arg1 - 1] == 0 and item[arg2 - 1] == 1:
             num_BnotA += 1
 
-    if num_AnotB == num_BnotA:
+    if num_A == num_BnotA:
         return Quantifier2.T
     return Quantifier2.F
 
@@ -192,10 +193,11 @@ q.append(equal_number)
 ## Non-equal AB
 def nonequal_number_ver(lst):
     """
-    Verifies if the number of As (arg1) does not equal the number of Bs (arg2).
+    Verifies if the number of As (arg1) does not equal the number of 
+    Bs (arg2) that are not As.
     :param lst: a list of: a sequence of elements of R^4 (seq),
                 digit (A: 1-4), digit (B: 1-4)
-    :return: Quantifier2.T iff the number of As that are not Bs is
+    :return: Quantifier2.T iff the number of As is
              not the same as the number of Bs that are not As
     """
     if equal_number_ver(lst) == Quantifier2.F:
