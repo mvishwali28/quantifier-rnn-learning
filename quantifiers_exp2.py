@@ -51,7 +51,7 @@ class Quantifier2(object):
 #################################################
 # Conservative quantifiers
 ## Even A nonB
-def evenAnonB_ver(lst):
+def evenAnonB_ver2(lst):
     """
     Verifies whether the number of As (arg1) that are not Bs (arg2) is even.
     :param lst: a list of: a sequence of elements of R^4 (seq),
@@ -71,12 +71,12 @@ def evenAnonB_ver(lst):
     else:
         return Quantifier2.F
 
-evenAnonB = Quantifier2("even_AnonB", cons=True, fn=evenAnonB_ver),
-q.append(evenAnonB)
+evenAnonB2 = Quantifier2("even_AnonB_2", cons=True, fn=evenAnonB_ver2),
+q.append(evenAnonB2)
 
 
 ## Odd A nonBs
-def oddAnonB_ver(lst):
+def oddAnonB_ver2(lst):
     """
     Verifies whether the number of As (arg1) that are not Bs (arg2) is odd.
     :param lst: a list of: a sequence of elements of R^4 (seq),
@@ -88,12 +88,12 @@ def oddAnonB_ver(lst):
         return Quantifier2.T
     return Quantifier2.F
 
-oddAnonB = Quantifier2("odd_AnonB", cons=True, fn=oddAnonB_ver)
-q.append(oddAnonB)
+oddAnonB2 = Quantifier2("odd_AnonB_2", cons=True, fn=oddAnonB_ver2)
+q.append(oddAnonB2)
 
 
 ## Prime A nonBs
-def primeAnonB_ver(lst):
+def primeAnonB_ver2(lst):
     """
     Verifies whether the number of As (arg1) that are not Bs (arg2) is prime (for numbers under 20).
     :param lst: a list of: a sequence of elements of R^4 (seq),
@@ -114,12 +114,12 @@ def primeAnonB_ver(lst):
     else:
         return Quantifier2.F
 
-primeAnonB = Quantifier2("prime_AnonB", cons=True, fn=primeAnonB_ver)
-q.append(primeAnonB)
+primeAnonB2 = Quantifier2("prime_AnonB_2", cons=True, fn=primeAnonB_ver_2)
+q.append(primeAnonB2)
 
 
 ## Non-prime A nonBs
-def nonprimeAnonB_ver(lst):
+def nonprimeAnonB_ver2(lst):
     """
     Verifies whether the number of As (arg1) that are not Bs (arg2) is not prime (for numbers under 20).
     :param lst: a list of: a sequence of elements of R^4 (seq),
@@ -131,12 +131,12 @@ def nonprimeAnonB_ver(lst):
         return Quantifier2.T
     return Quantifier2.F
 
-nonprimeAnonB = Quantifier2("nonprime_AnonB", cons=True, fn=nonprimeAnonB_ver)
-q.append(nonprimeAnonB)
+nonprimeAnonB2 = Quantifier2("nonprime_AnonB_2", cons=True, fn=nonprimeAnonB_ver2)
+q.append(nonprimeAnonB2)
 
 
 ## But for 3 A, B
-def butfor3AnonB_ver(lst):
+def butfor3AnonB_ver2(lst):
     """
     Verifies whether the number of As (arg1) that are not Bs (arg2) is 3.
     :param lst: a list of: a sequence of elements of R^4 (seq),
@@ -155,14 +155,14 @@ def butfor3AnonB_ver(lst):
         return Quantifier2.T
     return Quantifier2.F
 
-butfor3AnonB = Quantifier2("but_for_3_AnonB", cons=True, fn=butfor3AnonB_ver)
-q.append(butfor3AnonB)
+butfor3AnonB2 = Quantifier2("but_for_3_AnonB_2", cons=True, fn=butfor3AnonB_ver2)
+q.append(butfor3AnonB2)
 
 
 
 # Non-conservative quantifiers
 ## Equal AB
-def equal_number_ver(lst):
+def equal_number_ver2(lst):
     """
     Verifies if the number of As (arg1) equals the number of 
     Bs (arg2) that are not As.
@@ -186,12 +186,12 @@ def equal_number_ver(lst):
         return Quantifier2.T
     return Quantifier2.F
 
-equal_number = Quantifier2("equal_number", cons=False, fn=equal_number_ver)
-q.append(equal_number)
+equal_number_2 = Quantifier2("equal_number_2", cons=False, fn=equal_number_ver_2)
+q.append(equal_number_2)
 
 
 ## Non-equal AB
-def nonequal_number_ver(lst):
+def nonequal_number_ver_2(lst):
     """
     Verifies if the number of As (arg1) does not equal the number of 
     Bs (arg2) that are not As.
@@ -204,12 +204,12 @@ def nonequal_number_ver(lst):
         return Quantifier2.T
     return Quantifier2.F
 
-non_equal_number = Quantifier2("nonequal_number", cons=False, fn=nonequal_number_ver)
-q.append(non_equal_number)
+non_equal_number2 = Quantifier2("nonequal_number_2", cons=False, fn=nonequal_number_ver2)
+q.append(non_equal_number2)
 
 
 ## More A than B
-def more_ver(lst):
+def more_ver(lst2):
     """
     Verifies if the number of As is more than the number of Bs.
     :param lst: a list of: a sequence of elements of R^4 (seq),
@@ -232,12 +232,12 @@ def more_ver(lst):
         return Quantifier2.T
     return Quantifier2.F
 
-more = Quantifier2("more_A_than_B", cons=False, fn=more_ver)
-q.append(more)
+more2 = Quantifier2("more_A_than_B_2", cons=False, fn=more_ver2)
+q.append(more2)
 
 
 ## Less A than B
-def less_ver(lst):
+def less_ver2(lst):
     """
     Verifies if the number of As is less than the number of Bs.
     :param lst: a list of: a sequence of elements of R^4 (seq),
@@ -260,12 +260,12 @@ def less_ver(lst):
         return Quantifier2.T
     return Quantifier2.F
 
-less = Quantifier2("less_A_than_B", cons=False, fn=less_ver)
-q.append(less)
+less2 = Quantifier2("less_A_than_B_2", cons=False, fn=less_ver2)
+q.append(less2)
 
 
 ## No more A than B
-def no_more_ver(lst):
+def no_more_ver2(lst):
     """
     Verifies if the number of As is no more than the number of Bs.
     :param lst: a list of: a sequence of elements of R^4 (seq),
@@ -273,15 +273,15 @@ def no_more_ver(lst):
     :return: Quantifier2.T iff the number of As that are not Bs is not
              bigger than the number of Bs that are not As
     """
-    if more_ver(lst) == Quantifier2.F:
+    if more_ver2(lst) == Quantifier2.F:
         return Quantifier2.T
     return Quantifier2.F
 
-no_more = Quantifier2("no_more_A_than_B", cons=False, fn=no_more_ver)
-q.append(no_more)
+no_more2 = Quantifier2("no_more_A_than_B_2", cons=False, fn=no_more_ver2)
+q.append(no_more2)
 
 
-def get_all_quantifiers():
+def get_all_quantifiers2():
     """
     Returns: a list of all Quantifier2-s that have been created so far.
     """
@@ -289,7 +289,7 @@ def get_all_quantifiers():
     return [i for i in q if isinstance(i,Quantifier2)]
 
 
-def get_all_cons_quantifiers():
+def get_all_cons_quantifiers2():
     """
     Returns: a list of all conservative Quantifier2-s
     that have been created so far.
@@ -298,7 +298,7 @@ def get_all_cons_quantifiers():
     return [i for i in q if (isinstance(i, Quantifier2) and i.cons)]
 
 
-def get_all_noncons_quantifiers():
+def get_all_noncons_quantifiers2():
     """
     Returns: a list of all non-conservative Quantifier2-s
     that have been created so far.
