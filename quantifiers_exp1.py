@@ -259,5 +259,5 @@ def get_all_quantifiers():
     t = [evenAnonB,oddAnonB,primeAnonB,nonprimeAnonB,butfor3AnonB,equal_number,non_equal_number,more,less,no_more]
     # print([i._name for i in t if isinstance(i,Quantifier1)])
     return [i for i in t if isinstance(i,Quantifier1)]
-    # return [quant for quant in gc.get_objects()
+    # return [quant for quant in gc.get_object()
     #         if isinstance(quant, Quantifier1)]
