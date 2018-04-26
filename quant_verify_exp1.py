@@ -20,7 +20,8 @@ import tensorflow as tf
 import numpy as np
 
 import data_gen
-import quantifiers
+import data_generator
+import quantifiers_exp1
 import util
 
 
@@ -237,9 +238,12 @@ def run_trial(eparams, hparams, trial_num,
 
     # GENERATE DATA
     generator = data_gen.DataGenerator(
-        hparams['max_len'], hparams['quantifiers'],
+        hparams['max_len'],
+        hparams['quantifiers1'],
+        hparams['quantifiers2'],
         mode=eparams['generator_mode'],
-        num_data_points=eparams['num_data'])
+        num_data_points1 = eparams['num_data_train'],
+        num_data_points2 = eparams['num_data_test'] )
 
     training_data = generator.get_training_data()
     test_data = generator.get_test_data()
@@ -274,24 +278,43 @@ def run_trial(eparams, hparams, trial_num,
                                          eparams['eval_steps'],
                                          eparams['stop_loss'])])
 
+#get conservative and non conservative quantifiers
+def get_quantifiers():
+    quants = quantifiers_exp1.get_all_quantifiers()
+    cons,noncons = data_generator.cons_vs_noncons(quants)
+    return cons,noncons
 
 # DEFINE AN EXPERIMENT
 
+#0c : 4nc
 def experiment_one_a(write_dir='data/exp1a'):
-
+    print("Running experiment with 0c:4nc!")
+    cons,noncons = get_quantifiers()
+    print("Conservative quantifiers: {}\n\nNonconservative quantifiers: {}".format([i._name for i in cons],[i._name for i in noncons]))
+    #check if we want it to be generated randomly or not
+    # training_cons = np.random.choice(range(len(cons)),0,replace=False)
+    # training_noncons = np.random.choice(range(len(noncons)),4,replace=False)
+    # print("Training cons: {}\n\nTraining noncons: {}".format(training_cons,training_noncons))
+    training_cons = cons[0:0]
+    training_noncons = noncons[0:4]
+    q = training_cons + training_noncons
+    print("Quantifiers for this experiment are:\t",[i._name for i in q])
+    test_quantifiers = [cons[-1]] + [noncons[-1]]
+    print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data': 100000,
+               'generator_mode': 'g', 'num_data_train': 100000,
+               'num_data_test': 60000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,
-               'quantifiers': [quantifiers.at_least_n(4),
-                               quantifiers.at_least_n_or_at_most_m(6, 2)]}
+               'quantifiers1': q,
+               'quantifiers2': test_quantifiers}
     num_trials = 30
 
-    for idx in range(num_trials):
-        run_trial(eparams, hparams, idx, write_dir)
+    # for idx in range(num_trials):
+    #     run_trial(eparams, hparams, idx, write_dir)
 
-
+#1c : 3nc
 def experiment_one_b(write_dir='data/exp1b'):
 
     eparams = {'num_epochs': 4, 'batch_size': 8,
@@ -306,7 +329,7 @@ def experiment_one_b(write_dir='data/exp1b'):
     for idx in range(num_trials):
         run_trial(eparams, hparams, idx, write_dir)
 
-
+#2c : 2nc
 def experiment_one_c(write_dir='data/exp1c'):
 
     eparams = {'num_epochs': 4, 'batch_size': 8,
@@ -321,7 +344,7 @@ def experiment_one_c(write_dir='data/exp1c'):
     for idx in range(num_trials):
         run_trial(eparams, hparams, idx, write_dir)
 
-
+#3c : 1nc
 def experiment_one_d(write_dir='data/exp1d'):
 
     eparams = {'num_epochs': 4, 'batch_size': 8,
@@ -336,7 +359,12 @@ def experiment_one_d(write_dir='data/exp1d'):
     for idx in range(num_trials):
         run_trial(eparams, hparams, idx, write_dir)
 
+#4c : 0nc
+def experiment_one_e(write_dir="data/exp1e"):
+    for idx in range(num_trails):
+        run_trial(eparams, hparams, idx, write_dir)
 
+"""
 def experiment_two(write_dir='data/exp2'):
 
     eparams = {'num_epochs': 4, 'batch_size': 8,
@@ -364,7 +392,7 @@ def experiment_three(write_dir='data/exp3'):
 
     for idx in range(num_trials):
         run_trial(eparams, hparams, idx, write_dir)
-
+"""
 
 # TEST
 def test():
@@ -391,8 +419,8 @@ if __name__ == '__main__':
     func_map = {
         'one_a': experiment_one_a,
         'one_b': experiment_one_b,
-        'two': experiment_two,
-        'three': experiment_three,
+        # 'two': experiment_two,
+        # 'three': experiment_three,
         'test': test
     }
 

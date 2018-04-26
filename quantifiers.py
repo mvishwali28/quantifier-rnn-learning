@@ -494,9 +494,9 @@ def at_least_n_or_at_most_m(n, m):
 def get_all_quantifiers():
     """Returns: a list of all Quantifiers that have been created so far.
     """
-    for temp in q:
-        print(temp._name)
-    print([i._name for i in q if isinstance(i, Quantifier)])
+    # for temp in q:
+    #     print(temp._name)
+    # print([i._name for i in q if isinstance(i, Quantifier)])
     return [i for i in q if isinstance(i, Quantifier)]
     # return [quant for quant in gc.get_objects()
     #         if isinstance(quant, Quantifier)]

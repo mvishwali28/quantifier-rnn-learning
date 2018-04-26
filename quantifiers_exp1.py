@@ -18,7 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
 
 import numpy as np
-q = []
+import gc
+
 
 #####################################
 # Defining the class of Quantifiers #
@@ -79,10 +80,6 @@ def evenAnonB_ver(seq):
         return Quantifier1.F
 
 
-evenAnonB = Quantifier1("even_AnonB", cons=True, fn=evenAnonB_ver),
-q.append(evenAnonB)
-
-
 # Odd A nonBs
 def oddAnonB_ver(seq):
     """
@@ -96,8 +93,6 @@ def oddAnonB_ver(seq):
     return Quantifier1.F
 
 
-oddAnonB = Quantifier1("odd_AnonB", cons=True, fn=oddAnonB_ver)
-q.append(oddAnonB)
 
 
 # Prime A nonBs
@@ -119,8 +114,6 @@ def primeAnonB_ver(seq):
         return Quantifier1.F
 
 
-primeAnonB = Quantifier1("prime_AnonB", cons=True, fn=primeAnonB_ver)
-q.append(primeAnonB)
 
 # Non-prime A nonBs
 def nonprimeAnonB_ver(seq):
@@ -135,8 +128,6 @@ def nonprimeAnonB_ver(seq):
     return Quantifier1.F
 
 
-nonprimeAnonB = Quantifier1("nonprime_AnonB", cons=True, fn=nonprimeAnonB_ver)
-q.append(nonprimeAnonB)
 
 
 # But for 3 A, B
@@ -156,8 +147,7 @@ def butfor3AnonB_ver(seq):
     return Quantifier1.F
 
 
-butfor3AnonB = Quantifier1("but_for_3_AnonB", cons=True, fn=butfor3AnonB_ver)
-q.append(butfor3AnonB)
+
 
 # Non-conservative quantifiers
 # Equal AB
@@ -181,8 +171,7 @@ def equal_number_ver(seq):
     return Quantifier1.F
 
 
-equal_number = Quantifier1("equal_number", cons=False, fn=equal_number_ver)
-q.append(equal_number)
+
 
 # Non-equal AB
 def nonequal_number_ver(seq):
@@ -197,8 +186,6 @@ def nonequal_number_ver(seq):
     return Quantifier1.F
 
 
-non_equal_number = Quantifier1("nonequal_number", cons=False, fn=nonequal_number_ver)
-q.append(non_equal_number)
 
 # More A than B
 def more_ver(seq):
@@ -220,8 +207,6 @@ def more_ver(seq):
     return Quantifier1.F
 
 
-more = Quantifier1("more_A_than_B", cons=False, fn=more_ver)
-q.append(more)
 
 # Less A than B
 def less_ver(seq):
@@ -243,8 +228,6 @@ def less_ver(seq):
     return Quantifier1.F
 
 
-less = Quantifier1("less_A_than_B", cons=False, fn=less_ver)
-q.append(less)
 
 # No more A than B
 def no_more_ver(seq):
@@ -259,13 +242,22 @@ def no_more_ver(seq):
     return Quantifier1.F
 
 
-no_more = Quantifier1("no_more_A_than_B", cons=False, fn=no_more_ver)
-q.append(no_more)
 
 def get_all_quantifiers():
     """Returns: a list of all Quantifiers that have been created so far.
     """
-    print([i._name for i in q if isinstance(i,Quantifier)])
-    return [i for i in q if isinstance(i,Quantifier)]
+    evenAnonB = Quantifier1("even_AnonB",cons = True, fn = evenAnonB_ver)
+    oddAnonB = Quantifier1("odd_AnonB", cons=True, fn=oddAnonB_ver)
+    primeAnonB = Quantifier1("prime_AnonB", cons=True, fn=primeAnonB_ver)
+    nonprimeAnonB = Quantifier1("nonprime_AnonB", cons=True, fn=nonprimeAnonB_ver)
+    butfor3AnonB = Quantifier1("but_for_3_AnonB", cons=True, fn=butfor3AnonB_ver)
+    equal_number = Quantifier1("equal_number", cons=False, fn=equal_number_ver)
+    non_equal_number = Quantifier1("nonequal_number", cons=False, fn=nonequal_number_ver)
+    more = Quantifier1("more_A_than_B", cons=False, fn=more_ver)
+    less = Quantifier1("less_A_than_B", cons=False, fn=less_ver)
+    no_more = Quantifier1("no_more_A_than_B", cons=False, fn=no_more_ver)
+    t = [evenAnonB,oddAnonB,primeAnonB,nonprimeAnonB,butfor3AnonB,equal_number,non_equal_number,more,less,no_more]
+    # print([i._name for i in t if isinstance(i,Quantifier1)])
+    return [i for i in t if isinstance(i,Quantifier1)]
     # return [quant for quant in gc.get_objects()
-    #         if isinstance(quant, Quantifier)]
+    #         if isinstance(quant, Quantifier1)]
