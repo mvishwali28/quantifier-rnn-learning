@@ -1,10 +1,26 @@
 #!/bin/bash
-#SBATCH --gres=gpu:1  # Request 1 GPU
-#SBATCH --mem=8000  # Request 8GB of memory
-#SBATCH -t24:00:00  # Request run time of 24 hours
+
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=4
+#SBATCH --time=144:00:00
+#SBATCH --mem=40GB
+#SBATCH --job-name=conservativity
+#SBATCH --mail-type=END
+#SBATCH --mail-user=netid@nyu.edu
+#SBATCH --output=experiment_onea.out
+#SBATCH --gres=gpu:1
+
 
 # Activate the conda environment
 source activate nlu
 
 # Run the training script (change <dir> to output directory)
-#PYTHONPATH=$PYTHONPATH:. python -u quant_verify.py --exp one_a --out_path data/<dir>
+#uncomment the below line to start the training after specifying the <dir> to store the results
+#PYTHONPATH=$PYTHONPATH:.python quant_verify_exp1.py --exp one_a --out_path data/<dir>
+
+
+#The terminal results would be dumped into the file called terimal_results.run_context
+#This would help to debug if there are any issues.
+touch terminal_results.txt
+cat experiment_onea.out > terminal_results.txt
