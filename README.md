@@ -46,13 +46,14 @@ Run the training script:
 
 Alternatively, modify and run the bash script using `sbatch`:
 
+There are 5 different bash scripts for running the 5 sub experiments.
 ```
-(nlu) [netID@log-0 quantifier-rnn-learning]$ sbatch run-job.sbatch
+(nlu) [netID@log-0 quantifier-rnn-learning]$ sbatch experiment_onea.sh
 Submitted batch job 123
 ```
 
 Slurm will then generate a log file containing all the output called `slurm-123.out` in the same directory.
-
+An output file will be generated in the same directory that would have the results from the terminal.
 Once you have a job running on HPC, here are some useful commands:
 
 - `squeue -u <user_ID>`: list all your jobs and allocated resources

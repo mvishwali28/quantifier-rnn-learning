@@ -150,24 +150,23 @@ def butfor3AnonB_ver(seq):
 
 
 # Non-conservative quantifiers
-# Equal AnonB
+# Equal AB
 def equal_number_ver(seq):
     """
-    Verifies if the number of As equals the number of Bs that are not As.
+    Verifies if the number of As equals the number of Bs.
     :param seq: sequence of elements of R^4
-    :return: Quantifier1.T iff the number of Quantifier1.AnotBs + Quantifier1.ABs is
-             the same as the number of Quanitifer1.BnotAs
+    :return: Quantifier.T iff the number of Quantifier.AnotBs is
+             the same as the number of Quanitifer.BnotAs
     """
 
-    num_A, num_BnotA = 0, 0
+    num_AnotB, num_BnotA = 0, 0
     for item in seq:
-        if np.array_equal(item, Quantifier1.AnotB) or np.array_equal(item, Quantifier1.AB):
-            num_A += 1
+        if np.array_equal(item, Quantifier1.AnotB):
+            num_AnotB += 1
         elif np.array_equal(item, Quantifier1.BnotA):
             num_BnotA += 1
-         
 
-    if num_A == num_BnotA:
+    if num_AnotB == num_BnotA:
         return Quantifier1.T
     return Quantifier1.F
 
@@ -177,10 +176,10 @@ def equal_number_ver(seq):
 # Non-equal AB
 def nonequal_number_ver(seq):
     """
-    Verifies if the number of As does not equal the number of Bs that are not As.
+    Verifies if the number of As does not equal the number of Bs.
     :param seq: sequence of elements of R^4
-    :return: Quantifier1.T iff the number of Quantifier1.AnotBs + Quantifier1.ABs is
-             not the same as the number of Quanitifer1.BnotAs
+    :return: Quantifier.T iff the number of Quantifier.AnotBs is
+             not the same as the number of Quanitifer.BnotAs
     """
     if equal_number_ver(seq) == Quantifier1.F:
         return Quantifier1.T
@@ -193,8 +192,8 @@ def more_ver(seq):
     """
     Verifies if the number of As is more than the number of Bs.
     :param seq: sequence of elements of R^4
-    :return: Quantifier1.T iff the number of Quantifier1.AnotBs is
-             bigger than the number of Quanitifer1.BnotAs
+    :return: Quantifier.T iff the number of Quantifier.AnotBs is
+             bigger than the number of Quanitifer.BnotAs
     """
     num_AnotB, num_BnotA = 0, 0
     for item in seq:
@@ -214,8 +213,8 @@ def less_ver(seq):
     """
     Verifies if the number of As is less than the number of Bs.
     :param seq: sequence of elements of R^4
-    :return: Quantifier1.T iff the number of Quantifier1.AnotBs is
-             smaller than the number of Quanitifer1.BnotAs
+    :return: Quantifier.T iff the number of Quantifier.AnotBs is
+             smaller than the number of Quanitifer.BnotAs
     """
     num_AnotB, num_BnotA = 0, 0
     for item in seq:
@@ -235,8 +234,8 @@ def no_more_ver(seq):
     """
     Verifies if the number of As is no more than the number of Bs.
     :param seq: sequence of elements of R^4
-    :return: Quantifier1.T iff the number of Quantifier1.AnotBs is not
-             bigger than the number of Quanitifer1.BnotAs
+    :return: Quantifier.T iff the number of Quantifier.AnotBs is not
+             bigger than the number of Quanitifer.BnotAs
     """
     if more_ver(seq) == Quantifier1.F:
         return Quantifier1.T
@@ -247,12 +246,12 @@ def no_more_ver(seq):
 def get_all_quantifiers():
     """Returns: a list of all Quantifiers that have been created so far.
     """
-    evenAnonB = Quantifier1("even_AnonB",cons = True, fn = evenAnonB_ver)
+    evenAnonB = Quantifier1("even_AnonB",cons = True, fn = evenAnonB_ver) #Testing quantifier
     oddAnonB = Quantifier1("odd_AnonB", cons=True, fn=oddAnonB_ver)
     primeAnonB = Quantifier1("prime_AnonB", cons=True, fn=primeAnonB_ver)
     nonprimeAnonB = Quantifier1("nonprime_AnonB", cons=True, fn=nonprimeAnonB_ver)
     butfor3AnonB = Quantifier1("but_for_3_AnonB", cons=True, fn=butfor3AnonB_ver)
-    equal_number = Quantifier1("equal_number", cons=False, fn=equal_number_ver)
+    equal_number = Quantifier1("equal_number", cons=False, fn=equal_number_ver)  #Testing quantifier
     non_equal_number = Quantifier1("nonequal_number", cons=False, fn=nonequal_number_ver)
     more = Quantifier1("more_A_than_B", cons=False, fn=more_ver)
     less = Quantifier1("less_A_than_B", cons=False, fn=less_ver)
