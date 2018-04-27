@@ -8,7 +8,7 @@
 #SBATCH --job-name=conservativity
 #SBATCH --mail-type=END
 #SBATCH --mail-user=netid@nyu.edu
-#SBATCH --output=experiment_onec.out
+#SBATCH --output=experiment_onee.out
 #SBATCH --gres=gpu:1
 
 
@@ -17,10 +17,10 @@ source activate nlu
 
 # Run the training script (change <dir> to output directory)
 #uncomment the below line to start the training after specifying the <dir> to store the results
-#PYTHONPATH=$PYTHONPATH:.python quant_verify_exp1.py --exp one_c --out_path data/<dir>
+#PYTHONPATH=$PYTHONPATH:.python quant_verify_exp1.py --exp one_e --out_path data/<dir>
 
 
 #The terminal results would be dumped into the file called terimal_results.run_context
 #This would help to debug if there are any issues.
 touch terminal_results.txt
-cat experiment_onec.out > terminal_results.txt
+cat experiment_onee.out > terminal_results.txt
