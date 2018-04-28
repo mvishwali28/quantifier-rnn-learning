@@ -473,8 +473,8 @@ if __name__ == '__main__':
         'one_b': experiment_one_b,
         'one_c': experiment_one_c,
         'one_d': experiment_one_d,
-        "one_e": experiment_one_e,
-        'test': test
+        'one_e': experiment_one_e,
+        'test': test,
     }
 
     func = func_map[args.exp]

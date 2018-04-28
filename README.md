@@ -46,9 +46,8 @@ Run the training script:
 
 Alternatively, modify and run the bash script using `sbatch`:
 
-There are 5 different bash scripts for running the 5 sub experiments.
 ```
-(nlu) [netID@log-0 quantifier-rnn-learning]$ sbatch experiment_onea.sh
+(nlu) [netID@log-0 quantifier-rnn-learning]$ sbatch run-exp_x_x.sh
 Submitted batch job 123
 ```
 
@@ -99,3 +98,15 @@ When you're done, exit the GPU node, deactivate the environment, and log out of 
 (nlu) [netID@log-0 ~]$ source deactivate
 [netID@log-0 ~]$ logout
 ```
+
+### Divide and conquer
+
+**Double check your bash script before you run it.**
+
+**!** Make sure to replace `netID` with your actual ID so you can receive email notifications when your jobs are finished.
+
+- `run-exp_1_a.sh` : Melanie
+- `run-exp_1_b.sh` : Ildi
+- `run-exp_1_c.sh` : Sheng-Fu
+- `run-exp_1_d.sh` : Vishwali
+- `run-exp_1_e.sh` : Melanie or Vishwali
