@@ -105,6 +105,8 @@ When you're done, exit the GPU node, deactivate the environment, and log out of 
 
 **!** Make sure to replace `netID` with your actual ID so you can receive email notifications when your jobs are finished.
 
+**!** Make sure you used `module load` to load the Anaconda/CUDA modules, otherwise TensorFlow will not actually run on the GPU.
+
 - `run-exp_1_a.sh` : Melanie
 - `run-exp_1_b.sh` : Ildi
 - `run-exp_1_c.sh` : Sheng-Fu
