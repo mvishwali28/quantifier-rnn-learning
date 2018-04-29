@@ -306,8 +306,8 @@ def experiment_one_a(write_dir='data/exp1a'):
     test_quantifiers = [cons[0]] + [noncons[0]]
     print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data_train': 10000,
-               'num_data_test': 6000,
+               'generator_mode': 'g', 'num_data_train': 300000,
+               'num_data_test': 180000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,
@@ -337,8 +337,8 @@ def experiment_one_b(write_dir='data/exp1b'):
     test_quantifiers = [cons[0]] + [noncons[0]]
     print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data_train': 10000,
-               'num_data_test': 6000,
+               'generator_mode': 'g', 'num_data_train': 300000,
+               'num_data_test': 180000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,
@@ -369,8 +369,8 @@ def experiment_one_c(write_dir='data/exp1c'):
     test_quantifiers = [cons[0]] + [noncons[0]]
     print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data_train': 10000,
-               'num_data_test': 6000,
+               'generator_mode': 'g', 'num_data_train': 300000,
+               'num_data_test': 180000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,
@@ -400,8 +400,8 @@ def experiment_one_d(write_dir='data/exp1d'):
     test_quantifiers = [cons[0]] + [noncons[0]]
     print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data_train': 10000,
-               'num_data_test': 6000,
+               'generator_mode': 'g', 'num_data_train': 300000,
+               'num_data_test': 180000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,
@@ -430,8 +430,8 @@ def experiment_one_e(write_dir="data/exp1e"):
     test_quantifiers = [cons[0]] + [noncons[0]]
     print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data_train': 10000,
-               'num_data_test': 6000,
+               'generator_mode': 'g', 'num_data_train': 300000,
+               'num_data_test': 180000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,
