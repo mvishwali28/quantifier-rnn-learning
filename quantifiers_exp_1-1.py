@@ -103,9 +103,7 @@ def most_ver(seq):
             num_AnotB += 1
         elif np.array_equal(item, Quantifier1.AB):
             num_AB += 1
-    if num_AB + num_AnotB == 0:
-        return Quantifier1.T
-    elif num_AnotB < (num_AnotB + num_AB):
+    if num_AB > num_AnotB:
         return Quantifier1.T
     else:
         return Quantifier1.F
