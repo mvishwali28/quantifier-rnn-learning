@@ -18,5 +18,5 @@ source activate nlu
 PYTHONPATH=$PYTHONPATH:. python quant_verify_exp1.py --exp one_b --out_path data/1/exp-1-b
 
 # The output will be dumped into a file called terminal_results_1.run_context
-touch terminal_results_1.txt
-cat exp_1_b.out > terminal_results_1.txt
+# touch terminal_results_1.txt
+# cat exp_1_b.out > terminal_results_1.txt
