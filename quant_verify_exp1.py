@@ -21,7 +21,7 @@ import numpy as np
 
 import data_gen
 import data_generator
-import quantifiers_exp1
+import quantifiers_exp_1_2
 import util
 
 
@@ -42,7 +42,7 @@ def length(data):
     """
     data = tf.slice(data,
                     [0, 0, 0],
-                    [-1, -1, quantifiers_exp1.Quantifier1.num_chars])
+                    [-1, -1, quantifiers_exp_1_2.Quantifier1.num_chars])
     used = tf.sign(tf.reduce_max(tf.abs(data), reduction_indices=2))
     lengths = tf.reduce_sum(used, reduction_indices=1)
     lengths = tf.cast(lengths, tf.int32)
@@ -56,7 +56,7 @@ def lstm_model_fn(features, labels, mode, params):
 
     # how big each input will be
     num_quants = len(params['quantifiers'])
-    item_size = quantifiers_exp1.Quantifier1.num_chars + num_quants
+    item_size = quantifiers_exp_1_2.Quantifier1.num_chars + num_quants
 
     # -- input_models: [batch_size, max_len, item_size]
     input_models = features[INPUT_FEATURE]
@@ -141,7 +141,7 @@ def lstm_model_fn(features, labels, mode, params):
     # extract the portion of the input corresponding to the quantifier
     # -- quants_by_seq: [batch_size, num_quants]
     quants_by_seq = tf.slice(final_inputs,
-                             [0, quantifiers_exp1.Quantifier1.num_chars],
+                             [0, quantifiers_exp_1_2.Quantifier1.num_chars],
                              [-1, -1])
     # index, in the quantifier list, of the quantifier for each data point
     # -- quant_indices: [batch_size]
@@ -284,7 +284,7 @@ def run_trial(eparams, hparams, trial_num,
 
 #get conservative and non conservative quantifiers
 def get_quantifiers():
-    quants = quantifiers_exp1.get_all_quantifiers()
+    quants = quantifiers_exp_1_2.get_all_quantifiers_1_2()
     cons,noncons = data_generator.cons_vs_noncons(quants)
     return cons,noncons
 
@@ -292,22 +292,22 @@ def get_quantifiers():
 
 #0c : 4nc
 def experiment_one_a(write_dir='data/exp1a'):
-    print("Running experiment with 0c:4nc!")
+    print("Running experiment with 4c:0nc!")
     cons,noncons = get_quantifiers()
     print("Conservative quantifiers: {}\n\nNonconservative quantifiers: {}".format([i._name for i in cons],[i._name for i in noncons]))
     #check if we want it to be generated randomly or not
     # training_cons = np.random.choice(range(len(cons)),0,replace=False)
     # training_noncons = np.random.choice(range(len(noncons)),4,replace=False)
     # print("Training cons: {}\n\nTraining noncons: {}".format(training_cons,training_noncons))
-    training_cons = cons[0:0]
-    training_noncons = noncons[1:5]
+    training_cons = cons[1:5]
+    training_noncons = noncons[0:0]
     q = training_cons + training_noncons
     print("Quantifiers for this experiment are:\t",[i._name for i in q])
     test_quantifiers = [cons[0]] + [noncons[0]]
     print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data_train': 300000,
-               'num_data_test': 180000,
+               'generator_mode': 'g', 'num_data_train': 10000,
+               'num_data_test': 6000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,
@@ -322,23 +322,23 @@ def experiment_one_a(write_dir='data/exp1a'):
 # #1c : 3nc
 def experiment_one_b(write_dir='data/exp1b'):
 
-    print("Running experiment with 1c:3nc!")
+    print("Running experiment with 3c:1nc!")
     cons,noncons = get_quantifiers()
     print("Conservative quantifiers: {}\n\nNonconservative quantifiers: {}".format([i._name for i in cons],[i._name for i in noncons]))
     #check if we want it to be generated randomly or not
     # training_cons = np.random.choice(range(len(cons)),0,replace=False)
     # training_noncons = np.random.choice(range(len(noncons)),4,replace=False)
     # print("Training cons: {}\n\nTraining noncons: {}".format(training_cons,training_noncons))
-    training_cons = cons[1:2]
+    training_cons = cons[1:4]
     #selected the second conservative quantifier
-    training_noncons = noncons[1:4]
+    training_noncons = noncons[1:2]
     q = training_cons + training_noncons
     print("Quantifiers for this experiment are:\t",[i._name for i in q])
     test_quantifiers = [cons[0]] + [noncons[0]]
     print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data_train': 300000,
-               'num_data_test': 180000,
+               'generator_mode': 'g', 'num_data_train': 10000,
+               'num_data_test': 6000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,
@@ -369,8 +369,8 @@ def experiment_one_c(write_dir='data/exp1c'):
     test_quantifiers = [cons[0]] + [noncons[0]]
     print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data_train': 300000,
-               'num_data_test': 180000,
+               'generator_mode': 'g', 'num_data_train': 10000,
+               'num_data_test': 6000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,
@@ -385,23 +385,23 @@ def experiment_one_c(write_dir='data/exp1c'):
 #3c : 1nc
 def experiment_one_d(write_dir='data/exp1d'):
 
-    print("Running experiment with 3c:1nc!")
+    print("Running experiment with 1c:3nc!")
     cons,noncons = get_quantifiers()
     print("Conservative quantifiers: {}\n\nNonconservative quantifiers: {}".format([i._name for i in cons],[i._name for i in noncons]))
     #check if we want it to be generated randomly or not
     # training_cons = np.random.choice(range(len(cons)),0,replace=False)
     # training_noncons = np.random.choice(range(len(noncons)),4,replace=False)
     # print("Training cons: {}\n\nTraining noncons: {}".format(training_cons,training_noncons))
-    training_cons = cons[1:4]
+    training_cons = cons[1:2]
     #selected the second conservative quantifier
-    training_noncons = noncons[1:2]
+    training_noncons = noncons[1:4]
     q = training_cons + training_noncons
     print("Quantifiers for this experiment are:\t",[i._name for i in q])
     test_quantifiers = [cons[0]] + [noncons[0]]
     print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data_train': 300000,
-               'num_data_test': 180000,
+               'generator_mode': 'g', 'num_data_train': 10000,
+               'num_data_test': 6000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,
@@ -422,16 +422,16 @@ def experiment_one_e(write_dir="data/exp1e"):
     # training_cons = np.random.choice(range(len(cons)),0,replace=False)
     # training_noncons = np.random.choice(range(len(noncons)),4,replace=False)
     # print("Training cons: {}\n\nTraining noncons: {}".format(training_cons,training_noncons))
-    training_cons = cons[1:5]
+    training_cons = cons[1:1]
     #selected the second conservative quantifier
-    training_noncons = noncons[1:1]
+    training_noncons = noncons[1:5]
     q = training_cons + training_noncons
     print("Quantifiers for this experiment are:\t",[i._name for i in q])
     test_quantifiers = [cons[0]] + [noncons[0]]
     print("Quantifiers for testing:\t",[i._name for i in test_quantifiers])
     eparams = {'num_epochs': 4, 'batch_size': 8,
-               'generator_mode': 'g', 'num_data_train': 300000,
-               'num_data_test': 180000,
+               'generator_mode': 'g', 'num_data_train': 10000,
+               'num_data_test': 6000,
                'eval_steps': 50, 'stop_loss': 0.02}
     hparams = {'hidden_size': 12, 'num_layers': 2, 'max_len': 20,
                'num_classes': 2, 'dropout': 1.0,

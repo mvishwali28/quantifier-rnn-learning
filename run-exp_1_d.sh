@@ -15,8 +15,8 @@
 source activate nlu
 
 # Run the training script
-PYTHONPATH=$PYTHONPATH:. python quant_verify_exp1.py --exp one_d --out_path data/exp-1-d
+PYTHONPATH=$PYTHONPATH:. python quant_verify_exp1.py --exp one_d --out_path data/1/exp-1-d
 
-# The output will be dumped into a file called terminal_results.run_context
-touch terminal_results.txt
-cat exp_1_d.out > terminal_results.txt
+# The output will be dumped into a file called terminal_results_1.run_context
+touch terminal_results_1.txt
+cat exp_1_d.out > terminal_results_1.txt

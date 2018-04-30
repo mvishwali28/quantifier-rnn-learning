@@ -254,13 +254,13 @@ def get_all_quantifiers_1_2():
     all = Quantifier1("all",cons=True, fn=all_ver) #Testing quantifier
     not_all = Quantifier1("not_all", cons=True, fn=notall_ver)
     most_AB = Quantifier1("most_AB", cons=True, fn=most_AB_ver)
-    most_not_AB = Quantifier1("most_not_AB", cons=True, fn=most_nonAB_ver())
+    most_not_AB = Quantifier1("most_not_AB", cons=True, fn=most_nonAB_ver)
     exactly_half_AB = Quantifier1("exactly_half_AB", cons=True, fn=exact_half_AB_ver)
     only = Quantifier1("only", cons=False, fn=only_ver) #Testing quantifier
     not_only = Quantifier1("not_only", cons=False, fn=notonly_ver)
     most_BA = Quantifier1("most_BA", cons=False, fn=most_BA_ver)
-    most_not_BA = Quantifier1("less_A_than_B", cons=False, fn=most_nonBA_ver)
-    exactly_half_BA = Quantifier1("no_more_A_than_B", cons=False, fn=exact_half_BA_ver())
+    most_not_BA = Quantifier1("most_not_BA", cons=False, fn=most_nonBA_ver)
+    exactly_half_BA = Quantifier1("exactly_half_BA", cons=False, fn=exact_half_BA_ver)
     t = [all, not_all, most_AB, most_not_AB, exactly_half_AB,
          only, not_only, most_BA, most_not_BA, exactly_half_BA]
     # print([i._name for i in t if isinstance(i,Quantifier1)])

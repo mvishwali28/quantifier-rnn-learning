@@ -1,18 +1,18 @@
 import tensorflow as tf
-import quantifiers_exp1
+import quantifiers_exp_1_2
 
-quants = quantifiers_exp1.get_all_quantifiers()
+quants = quantifiers_exp_1_2.get_all_quantifiers_1_2()
 def cons_vs_noncons(quants):
-    conservative_quantifiers = ['even_AnonB',
-                                'odd_AnonB',
-                                'prime_AnonB',
-                                'nonprime_AnonB',
-                                'but_for_3_AnonB']
-    nonconservative_quantifiers = ['equal_number',
-                                   'nonequal_number',
-                                   'more_A_than_B',
-                                   'less_A_than_B',
-                                   'no_more_A_than_B']
+    conservative_quantifiers = ['all',
+                                'not_all',
+                                'most_AB',
+                                'most_not_AB',
+                                'exactly_half_AB']
+    nonconservative_quantifiers = ['only',
+                                   'not_only',
+                                   'most_BA',
+                                   'most_not_BA',
+                                   'exactly_half_BA']
     cons = [i for i in quants if i._name in conservative_quantifiers]
     noncons = [i for i in quants if i._name in nonconservative_quantifiers]
     return cons,noncons

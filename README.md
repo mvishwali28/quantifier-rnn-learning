@@ -107,6 +107,9 @@ When you're done, exit the GPU node, deactivate the environment, and log out of 
 
 **!** Make sure you used `module load` to load the Anaconda/CUDA modules, otherwise TensorFlow will not actually run on the GPU.
 
+**run-exp_1_x.sh trains with 10k training samples.**
+**run-exp_1_2_x.sh trains with 30k training samples.**
+**results files in both the bash scripts are different, so can be directly run.**
 - `run-exp_1_a.sh` : Melanie
 - `run-exp_1_b.sh` : Ildi
 - `run-exp_1_c.sh` : Sheng-Fu
