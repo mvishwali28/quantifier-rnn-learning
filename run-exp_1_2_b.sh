@@ -8,7 +8,7 @@
 #SBATCH --job-name=conservativity
 #SBATCH --mail-type=END
 #SBATCH --mail-user=netID@nyu.edu
-#SBATCH --output=exp_1_b.out
+#SBATCH --output=exp_1_2_b.out
 #SBATCH --gres=gpu:1
 
 # Activate the conda environment
@@ -19,4 +19,4 @@ PYTHONPATH=$PYTHONPATH:. python quant_verify_exp2.py --exp one_b --out_path data
 
 # The output will be dumped into a file called terminal_results.run_context
 touch terminal_results.txt
-cat exp_1_b.out > terminal_results.txt
+cat exp_1_2_b.out > terminal_results.txt
