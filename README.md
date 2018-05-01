@@ -115,3 +115,5 @@ When you're done, exit the GPU node, deactivate the environment, and log out of 
 - `run-exp_1_c.sh` : Sheng-Fu
 - `run-exp_1_d.sh` : Vishwali
 - `run-exp_1_e.sh` : Melanie or Vishwali
+
+The results are in two folders. 'Plots' only has the two test quantifiers over the 30 trials. 'Plots1' has the 6 quantifiers used in the experiment.
