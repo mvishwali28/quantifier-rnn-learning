@@ -57,7 +57,7 @@ def experiment_analysis(path, quants, path_tosave, title, trials=range(30), plot
         # make plots
         # make_boxplots(convergence_points, quants)
         # make_barplots(convergence_points, quants)
-        make_plot(data, quants, path_tosave, title, ylim=(0.3, 1))
+        make_plot(data, quants, path_tosave, title, ylim=(0.4, 1))
 
     print(stats.ttest_rel(convergence_points[quants[0]],
                           convergence_points[quants[1]]))
@@ -310,10 +310,26 @@ def make_plot(data, quants, path_tosave, title, ylim=None, threshold=0.95):
                 steps,
                 trials_by_quant[idx][-1],
                 colors[idx],
-                label=quants[idx] if i == 0 else "",
+                # label=quants[idx] if i == 0 else "",
                 alpha=0.4,
                 linewidth=1,
             )
+
+    # plot median lines
+    medians_by_quant = [get_median_diff_lengths(trials_by_quant[idx])
+                        for idx in range(len(trials_by_quant))]
+    # get x-axis of longest trial
+    longest_x = get_max_steps(data)
+
+    for idx in range(len(quants)):
+        plt.plot(
+            longest_x,
+            smooth_data(medians_by_quant[idx]),
+            color=colors[idx],
+            label=quants[idx],
+            linewidth=2,
+        )
+
     plt.title(title)
     plt.legend(loc=4)
     plt.xlabel("Global step")
