@@ -20,12 +20,13 @@ import numpy as np
 import scipy.stats as stats
 from matplotlib import pyplot as plt
 import util
+import argparse
+
+COLORS = ['blue', 'red','green','brown','purple','orange']
 
 
-COLORS = ['blue', 'red']
-
-
-def experiment_analysis(path, quants, trials=range(30), plots=True):
+def experiment_analysis(path, quants,path_tosave,title, trials=range(30), plots=True):
+    print("Analyzing the experiments!")
     """Prints statistical tests and makes plots for experiment one.
 
     Args:
@@ -35,6 +36,7 @@ def experiment_analysis(path, quants, trials=range(30), plots=True):
 
     # read the data in
     data = util.read_trials_from_csv(path, trials)
+    print("Data read!")
     # FILTER OUT TRIALS WHERE RNN DID NOT LEARN
     remove_bad_trials(data)
     # get convergence points per quantifier
@@ -42,33 +44,48 @@ def experiment_analysis(path, quants, trials=range(30), plots=True):
 
     if plots:
         # make plots
-        make_boxplots(convergence_points, quants)
-        make_barplots(convergence_points, quants)
-        make_plot(data, quants, ylim=(0.8, 1))
+        #make_boxplots(convergence_points, quants)
+        #make_barplots(convergence_points, quants)
+        make_plot(data, quants,path_tosave,title, ylim=(0.3, 1))
 
     print(stats.ttest_rel(convergence_points[quants[0]],
                           convergence_points[quants[1]]))
 
 
-def experiment_one_a_analysis():
-    experiment_analysis('data/exp1a', ['at_least_4',
-                                       'at_least_6_or_at_most_2'])
+def experiment_one_a_10k_analysis():
+    experiment_analysis("results/10k/exp-1-a", ['all','only','not_all', 'most_AB', 'most_not_AB', 'exactly_half_AB'],"./Plots1/10k/4c_0nc_10k.png","4c:0nc")
+
+def experiment_one_b_10k_analysis():
+    experiment_analysis("results/10k/exp-1-b", ['all','only','not_all', 'most_AB', 'most_not_AB', 'not_only'],"./Plots1/10k/3c_1nc_10k.png","3c:1nc")
+
+def experiment_one_c_10k_analysis():
+    experiment_analysis("results/10k/exp-1-c", ['all','only','not_all', 'most_AB', 'not_only', 'most_BA'],"./Plots1/10k/2c_2nc_10k.png","2c:2nc")
+
+def experiment_one_d_10k_analysis():
+    experiment_analysis("results/10k/exp-1-d", ['all','only','not_all', 'not_only', 'most_BA', 'most_not_BA'],"./Plots1/10k/1c_3nc_10k.png","1c:3nc")
+
+def experiment_one_e_10k_analysis():
+    experiment_analysis("results/10k/exp-1-e", ['all','only','not_only', 'most_BA', 'most_not_BA', 'exactly_half_BA'],"./Plots1/10k/0c_4nc_10k.png","0c:4nc")
+
+def experiment_one_a_30k_analysis():
+    experiment_analysis("results/30k/exp-1-a", ['all','only','not_all', 'most_AB', 'most_not_AB', 'exactly_half_AB'],"./Plots1/30k/4c_0nc_30k.png","4c:0nc")
+
+def experiment_one_b_30k_analysis():
+    experiment_analysis("results/30k/exp-1-b", ['all','only','not_all', 'most_AB', 'most_not_AB', 'not_only'],"./Plots1/30k/3c_1nc_30k.png","3c:1nc")
+
+def experiment_one_c_30k_analysis():
+    experiment_analysis("results/30k/exp-1-c", ['all','only','not_all', 'most_AB', 'not_only', 'most_BA'],"./Plots1/30k/2c_2nc_30k.png","2c:2nc")
+
+def experiment_one_d_30k_analysis():
+    experiment_analysis("results/30k/exp-1-d", ['all','only','not_all', 'not_only', 'most_BA', 'most_not_BA'],"./Plots1/30k/1c_3nc_30k.png","1c:3nc")
+
+def experiment_one_e_30k_analysis():
+    experiment_analysis("results/30k/exp-1-e", ['all','only','not_only', 'most_BA', 'most_not_BA', 'exactly_half_BA'],"./Plots1/30k/0c_4nc_30k.png","0c:4nc")
 
 
-def experiment_one_b_analysis():
-    experiment_analysis('data/exp1b', ['at_most_3',
-                                       'at_least_6_or_at_most_2'])
 
 
-def experiment_two_analysis():
-    experiment_analysis('data/exp2', ['at_least_3', 'first_3'])
-
-
-def experiment_three_analysis():
-    experiment_analysis('data/exp3', ['not_all', 'not_only'])
-
-
-def remove_bad_trials(data, threshold=0.97):
+def remove_bad_trials(data, threshold=0.60):
     """Remove 'bad' trials from a data set.  A trial is bad if the total
     accuracy never converged to a value close to 1.  The bad trials are
     deleted from data, but nothing is returned.
@@ -156,7 +173,7 @@ def first_above_threshold(arr, threshold):
     return None
 
 
-def convergence_point(arr, threshold=0.95):
+def convergence_point(arr, threshold=0.50):
     """Get the point at which a list converges above a threshold.
 
     Args:
@@ -189,7 +206,7 @@ def get_max_steps(data):
     return max_val
 
 
-def make_plot(data, quants, ylim=None, threshold=0.95):
+def make_plot(data, quants,path_tosave,title,ylim=None, threshold=0.95):
     """Makes a line plot of the accuracy of trials by quantifier, color coded,
     and with the medians also plotted.
 
@@ -206,8 +223,8 @@ def make_plot(data, quants, ylim=None, threshold=0.95):
         for idx in range(len(quants)):
             trials_by_quant[idx].append(smooth_data(
                 data[trial][quants[idx] + '_accuracy'].values))
-            plt.plot(steps, trials_by_quant[idx][-1],
-                     COLORS[idx], alpha=0.3)
+            # plt.plot(steps, trials_by_quant[idx][-1],
+                     # COLORS[idx], alpha=0.3)
 
     # plot median lines
     medians_by_quant = [get_median_diff_lengths(trials_by_quant[idx])
@@ -222,13 +239,16 @@ def make_plot(data, quants, ylim=None, threshold=0.95):
                  linewidth=2)
 
     max_x = max([len(ls) for ls in medians_by_quant])
-    plt.plot(longest_x, [threshold for _ in range(max_x)],
-             linestyle='dashed', color='green')
+    # plt.plot(longest_x, [threshold for _ in range(max_x)],
+             # linestyle='dashed', color='green')
 
     if ylim:
         plt.ylim(ylim)
-
+    plt.title(title)
     plt.legend(loc=4)
+    plt.xlabel("Global Step")
+    plt.ylabel("Accuracy")
+    plt.savefig(path_tosave)
     plt.show()
 
 
@@ -316,3 +336,23 @@ def smooth_data(data, smooth_weight=0.9):
         smoothed.append(prev * smooth_weight + point * (1 - smooth_weight))
         prev = smoothed[-1]
     return smoothed
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--exp', help='which experiment to run', type=str)
+    args = parser.parse_args()
+    func_map = {
+        'one_a': experiment_one_a_10k_analysis,
+        'one_b': experiment_one_b_10k_analysis,
+        'one_c': experiment_one_c_10k_analysis,
+        'one_d': experiment_one_d_10k_analysis,
+        'one_e': experiment_one_e_10k_analysis,
+        'two_a': experiment_one_a_30k_analysis,
+        'two_b': experiment_one_b_30k_analysis,
+        'two_c': experiment_one_c_30k_analysis,
+        'two_d': experiment_one_d_30k_analysis,
+        'two_e': experiment_one_e_30k_analysis,
+    }
+
+    func = func_map[args.exp]
+    func()
+    # experiment_one_e_10k_analysis()
