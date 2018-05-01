@@ -32,19 +32,22 @@ quants_c = ["all", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"]
 # Non-conservative quantifiers
 quants_nc = ["only", "not_only", "most_BA", "most_not_BA", "exactly_half_BA"]
 
+# Test quantifiers
+quants_test = ["all", "only"]
+
 
 def experiment_analysis(path, quants, path_tosave, title, trials=range(30), plots=True):
-    print("Analyzing the experiments!")
     """Prints statistical tests and makes plots for experiment one.
 
     Args:
         path: where the trials in CSV are
         plots: whether to make plots or not
     """
+    print(path.split("/")[-1], path.split("/")[1])
 
     # read the data in
     data = util.read_trials_from_csv(path, trials)
-    print("Data read!")
+    # print("Data read!")
     # FILTER OUT TRIALS WHERE RNN DID NOT LEARN
     remove_bad_trials(data)
     # get convergence points per quantifier
@@ -58,46 +61,47 @@ def experiment_analysis(path, quants, path_tosave, title, trials=range(30), plot
 
     print(stats.ttest_rel(convergence_points[quants[0]],
                           convergence_points[quants[1]]))
+    print()
 
 
 def experiment_one_a_10k_analysis():
-    experiment_analysis("results/10k/exp-1-a", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "./plots_training/10k/4c_0nc_10k.png", "4c:0nc")
+    experiment_analysis("results/10k/exp-1-a", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/10k/4c_0nc_10k.png", "4c:0nc")
 
 
 def experiment_one_b_10k_analysis():
-    experiment_analysis("results/10k/exp-1-b", ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "./plots_training/10k/3c_1nc_10k.png", "3c:1nc")
+    experiment_analysis("results/10k/exp-1-b", ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "plots_training/10k/3c_1nc_10k.png", "3c:1nc")
 
 
 def experiment_one_c_10k_analysis():
-    experiment_analysis("results/10k/exp-1-c", ["all", "only", "not_all", "most_AB", "not_only", "most_BA"], "./plots_training/10k/2c_2nc_10k.png", "2c:2nc")
+    experiment_analysis("results/10k/exp-1-c", ["all", "only", "not_all", "most_AB", "not_only", "most_BA"], "plots_training/10k/2c_2nc_10k.png", "2c:2nc")
 
 
 def experiment_one_d_10k_analysis():
-    experiment_analysis("results/10k/exp-1-d", ["all", "only", "not_all", "not_only", "most_BA", "most_not_BA"], "./plots_training/10k/1c_3nc_10k.png", "1c:3nc")
+    experiment_analysis("results/10k/exp-1-d", ["all", "only", "not_all", "not_only", "most_BA", "most_not_BA"], "plots_training/10k/1c_3nc_10k.png", "1c:3nc")
 
 
 def experiment_one_e_10k_analysis():
-    experiment_analysis("results/10k/exp-1-e", ["all", "only", "not_only", "most_BA", "most_not_BA", "exactly_half_BA"], "./plots_training/10k/0c_4nc_10k.png", "0c:4nc")
+    experiment_analysis("results/10k/exp-1-e", ["all", "only", "not_only", "most_BA", "most_not_BA", "exactly_half_BA"], "plots_training/10k/0c_4nc_10k.png", "0c:4nc")
 
 
 def experiment_one_a_30k_analysis():
-    experiment_analysis("results/30k/exp-1-a", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "./plots_training/30k/4c_0nc_30k.png", "4c:0nc")
+    experiment_analysis("results/30k/exp-1-a", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/30k/4c_0nc_30k.png", "4c:0nc")
 
 
 def experiment_one_b_30k_analysis():
-    experiment_analysis("results/30k/exp-1-b", ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "./plots_training/30k/3c_1nc_30k.png", "3c:1nc")
+    experiment_analysis("results/30k/exp-1-b", ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "plots_training/30k/3c_1nc_30k.png", "3c:1nc")
 
 
 def experiment_one_c_30k_analysis():
-    experiment_analysis("results/30k/exp-1-c", ["all", "only", "not_all", "most_AB", "not_only", "most_BA"], "./plots_training/30k/2c_2nc_30k.png", "2c:2nc")
+    experiment_analysis("results/30k/exp-1-c", ["all", "only", "not_all", "most_AB", "not_only", "most_BA"], "plots_training/30k/2c_2nc_30k.png", "2c:2nc")
 
 
 def experiment_one_d_30k_analysis():
-    experiment_analysis("results/30k/exp-1-d", ["all", "only", "not_all", "not_only", "most_BA", "most_not_BA"], "./plots_training/30k/1c_3nc_30k.png", "1c:3nc")
+    experiment_analysis("results/30k/exp-1-d", ["all", "only", "not_all", "not_only", "most_BA", "most_not_BA"], "plots_training/30k/1c_3nc_30k.png", "1c:3nc")
 
 
 def experiment_one_e_30k_analysis():
-    experiment_analysis("results/30k/exp-1-e", ["all", "only", "not_only", "most_BA", "most_not_BA", "exactly_half_BA"], "./plots_training/30k/0c_4nc_30k.png", "0c:4nc")
+    experiment_analysis("results/30k/exp-1-e", ["all", "only", "not_only", "most_BA", "most_not_BA", "exactly_half_BA"], "plots_training/30k/0c_4nc_30k.png", "0c:4nc")
 
 
 def remove_bad_trials(data, threshold=0.60):
@@ -232,14 +236,15 @@ def make_plot(data, quants, path_tosave, title, ylim=None, threshold=0.95):
     """
     assert len(quants) <= len(COLORS)
 
+    """
+    Plot training
+    """
+    print("Generating plot: {0}".format(path_tosave))
     trials_by_quant = [[] for _ in range(len(quants))]
     for trial in data.keys():
-        # steps = data[trial]["global_step"].values
         for idx in range(len(quants)):
             trials_by_quant[idx].append(smooth_data(
                 data[trial][quants[idx] + "_accuracy"].values))
-            # plt.plot(steps, trials_by_quant[idx][-1],
-            # COLORS[idx], alpha=0.3)
 
     # plot median lines
     medians_by_quant = [get_median_diff_lengths(trials_by_quant[idx])
@@ -248,23 +253,32 @@ def make_plot(data, quants, path_tosave, title, ylim=None, threshold=0.95):
     longest_x = get_max_steps(data)
     for idx in range(len(quants)):
 
-        # Linestyle
-        if quants[idx] in quants_c:
+        # C style
+        if quants[idx] in quants_c[1:]:
             lines = "-"
-        if quants[idx] in quants_nc:
+            color = COLORS[idx]
+        # NC style
+        if quants[idx] in quants_nc[1:]:
             lines = "-."
+            color = COLORS[idx]
+        # Test style
+        if quants[idx] == "all":
+            lines = ":"
+            color = "#377eb8"
+        if quants[idx] == "only":
+            lines = ":"
+            color = "#ff7f00"
 
         plt.plot(longest_x,
                  smooth_data(medians_by_quant[idx]),
-                 COLORS[idx],
+                 color,
                  label=quants[idx],
-                 linewidth=1,
+                 linewidth=1.5,
                  linestyle=lines)
 
     # max_x = max([len(ls) for ls in medians_by_quant])
     # plt.plot(longest_x, [threshold for _ in range(max_x)],
-    # linestyle="dashed", color="green")
-
+    #          linestyle="dashed", color="#4daf4a")
     if ylim:
         plt.ylim(ylim)
     plt.title(title)
@@ -272,7 +286,40 @@ def make_plot(data, quants, path_tosave, title, ylim=None, threshold=0.95):
     plt.xlabel("Global step")
     plt.ylabel("Accuracy")
     plt.savefig(path_tosave, dpi=500)
-    # plt.show()
+    plt.close()
+
+    """
+    Plot testing
+    """
+    # First 2 are test quantifiers
+    quants = quants[:2]
+    colors = ["#377eb8", "#e41a1c"]
+
+    # Change output file path
+    path_tosave = "plots_testing/" + "/".join(path_tosave.split("/")[1:])
+    print("Generating plot: {0}".format(path_tosave))
+
+    trials_by_quant = [[] for _ in range(len(quants))]
+    for i, trial in enumerate(data.keys()):
+        steps = data[trial]["global_step"].values
+        for idx in range(len(quants)):
+            trials_by_quant[idx].append(
+                smooth_data(data[trial][quants[idx] + "_accuracy"].values)
+            )
+            plt.plot(
+                steps,
+                trials_by_quant[idx][-1],
+                colors[idx],
+                label=quants[idx] if i == 0 else "",
+                alpha=0.4,
+                linewidth=1,
+            )
+    plt.title(title)
+    plt.legend(loc=4)
+    plt.xlabel("Global step")
+    plt.ylabel("Accuracy")
+    plt.savefig(path_tosave, dpi=500)
+    plt.close()
 
 
 def get_median_diff_lengths(trials):
@@ -296,50 +343,50 @@ def get_median_diff_lengths(trials):
     return np.nanmedian(trials, axis=0)
 
 
-def make_boxplots(convergence_points, quants):
-    """Makes box plots of some data.
+# def make_boxplots(convergence_points, quants):
+#     """Makes box plots of some data.
 
-    Args:
-        convergence_points: dictionary of quantifier convergence points
-        quants: names of quantifiers
-    """
-    plt.boxplot([convergence_points[quant] for quant in quants])
-    plt.xticks(range(1, len(quants) + 1), quants)
-    plt.show()
+#     Args:
+#         convergence_points: dictionary of quantifier convergence points
+#         quants: names of quantifiers
+#     """
+#     plt.boxplot([convergence_points[quant] for quant in quants])
+#     plt.xticks(range(1, len(quants) + 1), quants)
+#     plt.show()
 
 
-def make_barplots(convergence_points, quants):
-    """Makes bar plots, with confidence intervals, of some data.
+# def make_barplots(convergence_points, quants):
+#     """Makes bar plots, with confidence intervals, of some data.
 
-    Args:
-        convergence_points: dictionary of quantifier convergence points
-        quants: names of quantifiers
-    """
-    pairs = list(it.combinations(quants, 2))
-    assert len(pairs) <= len(COLORS)
+#     Args:
+#         convergence_points: dictionary of quantifier convergence points
+#         quants: names of quantifiers
+#     """
+#     pairs = list(it.combinations(quants, 2))
+#     assert len(pairs) <= len(COLORS)
 
-    diffs = {pair: diff(convergence_points[pair[0]],
-                        convergence_points[pair[1]])
-             for pair in pairs}
-    means = {pair: np.mean(diffs[pair]) for pair in pairs}
-    stds = {pair: np.std(diffs[pair]) for pair in pairs}
-    intervals = {pair: stats.norm.interval(
-        0.95, loc=means[pair],
-        scale=stds[pair] / np.sqrt(len(diffs[pair])))
-        for pair in pairs}
+#     diffs = {pair: diff(convergence_points[pair[0]],
+#                         convergence_points[pair[1]])
+#              for pair in pairs}
+#     means = {pair: np.mean(diffs[pair]) for pair in pairs}
+#     stds = {pair: np.std(diffs[pair]) for pair in pairs}
+#     intervals = {pair: stats.norm.interval(
+#         0.95, loc=means[pair],
+#         scale=stds[pair] / np.sqrt(len(diffs[pair])))
+#         for pair in pairs}
 
-    # plotting info
-    index = np.arange(len(pairs))
-    bar_width = 0.75
-    # reshape intervals to be fed to pyplot
-    yerrs = [[means[pair] - intervals[pair][0] for pair in pairs],
-             [intervals[pair][1] - means[pair] for pair in pairs]]
+#     # plotting info
+#     index = np.arange(len(pairs))
+#     bar_width = 0.75
+#     # reshape intervals to be fed to pyplot
+#     yerrs = [[means[pair] - intervals[pair][0] for pair in pairs],
+#              [intervals[pair][1] - means[pair] for pair in pairs]]
 
-    plt.bar(index, [means[pair] for pair in pairs], bar_width, yerr=yerrs,
-            color=[COLORS[idx] for idx in range(len(pairs))],
-            ecolor="black", align="center")
-    plt.xticks(index, pairs)
-    # plt.show()
+#     plt.bar(index, [means[pair] for pair in pairs], bar_width, yerr=yerrs,
+#             color=[COLORS[idx] for idx in range(len(pairs))],
+#             ecolor="black", align="center")
+#     plt.xticks(index, pairs)
+#     plt.show()
 
 
 def smooth_data(data, smooth_weight=0.9):
@@ -380,4 +427,3 @@ if __name__ == "__main__":
 
     func = func_map[args.exp]
     func()
-    # experiment_one_e_10k_analysis()
