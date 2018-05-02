@@ -47,12 +47,12 @@ Run the training script:
 Alternatively, modify and run the bash script using `sbatch`:
 
 ```
-(nlu) [netID@log-0 quantifier-rnn-learning]$ sbatch run-job.sbatch
+(nlu) [netID@log-0 quantifier-rnn-learning]$ sbatch run-exp_x_x.sh
 Submitted batch job 123
 ```
 
 Slurm will then generate a log file containing all the output called `slurm-123.out` in the same directory.
-
+An output file will be generated in the same directory that would have the results from the terminal.
 Once you have a job running on HPC, here are some useful commands:
 
 - `squeue -u <user_ID>`: list all your jobs and allocated resources
@@ -98,3 +98,22 @@ When you're done, exit the GPU node, deactivate the environment, and log out of 
 (nlu) [netID@log-0 ~]$ source deactivate
 [netID@log-0 ~]$ logout
 ```
+
+### Divide and conquer
+
+**Double check your bash script before you run it.**
+
+**!** Make sure to replace `netID` with your actual ID so you can receive email notifications when your jobs are finished.
+
+**!** Make sure you used `module load` to load the Anaconda/CUDA modules, otherwise TensorFlow will not actually run on the GPU.
+
+**run-exp_1_x.sh trains with 10k training samples.**
+**run-exp_1_2_x.sh trains with 30k training samples.**
+**results files in both the bash scripts are different, so can be directly run.**
+- `run-exp_1_a.sh` : Melanie
+- `run-exp_1_b.sh` : Ildi
+- `run-exp_1_c.sh` : Sheng-Fu
+- `run-exp_1_d.sh` : Vishwali
+- `run-exp_1_e.sh` : Melanie or Vishwali
+
+The results are in two folders. 'Plots' only has the two test quantifiers over the 30 trials. 'Plots1' has the 6 quantifiers used in the experiment.

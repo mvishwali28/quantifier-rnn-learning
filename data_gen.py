@@ -21,6 +21,7 @@ import itertools
 import math
 import os
 import time
+import random
 
 from collections import defaultdict
 
@@ -35,20 +36,53 @@ import quantifiers
 class DataGenerator(object):
 
     # TODO: document; mode = r, w, g [generate]; remove r, w?
-    def __init__(self, max_len, quants=quantifiers.get_all_quantifiers(),
-                 training_split=0.7, mode='g', file_path='/tmp/quantexp/data/',
-                 bin_size=1e6, num_data_points=100000):
+    def __init__(self, max_len, quants1,quants2,
+                 training_split1=0.7,training_split2 = 0.5, mode='g', file_path='/tmp/quantexp/data/',
+                 bin_size=1e6, num_data_points1=10000,num_data_points2=10000):
 
         self._max_len = max_len
-        self._quantifiers = quants
-        self._num_quants = len(quants)
+        self._quantifiers1 = quants1
+        self._quantifiers2 = quants2
+        self._num_quants = len(quants1) + len(quants2)
         self._quant_labels = np.identity(self._num_quants)
-        self._training_split = training_split
+        self._training_split1 = training_split1
+        self._training_split2 = training_split2
         self._training_data = None
         self._test_data = None
-
+        self._quantifiers = quants1 + quants2
+        self._q1 = []
+        self._q2 = []
+        print("Data generator object created!")
+        q1 = []
+        q2 = []
         if mode == 'g':
-            self._labeled_data = self._generate_labeled_data(num_data_points)
+            q1 = self._generate_labeled_data(num_data_points1,'quant1')
+            self._q1 = q1
+            # positive = [i[1][0] for i in q1]
+            # p1 = sum(positive)
+            # print(p1)
+            # print("Max :")
+            # for i in range(0,20):
+            #     print("******************")
+            #     print(q1[i])
+
+            print("Number of data points generated :",len(q1))
+            q2 = self._generate_labeled_data(num_data_points2,'quant2')
+            self._q2 = q2
+            # p = [i[1][0] for i in q2]
+            # p2 = sum(p)
+            # print("For q2 :",p2)
+            #
+            # print("Min :")
+            # for i in range(0,20):
+            #     print("******************")
+            #     print(q2[i])
+            print("Number of data points generated :",len(q2))
+            # print(type(q1))
+            temp = q1 + q2
+            print(len(temp))
+            # print(temp)
+            # self._labeled_data = q1 + q2
         elif mode == 'w':
             self.write_labeled_data(file_path, bin_size)
         elif mode == 'r':
@@ -56,7 +90,7 @@ class DataGenerator(object):
         else:
             raise ValueError("mode must be one of g, w, r")
 
-    def _generate_sequences(self):
+    def _generate_sequences(self,q):
         """Generates (sequence, quantifier_index) pairs for all sequences
         up to length max_len.
         These correspond to finite models.
@@ -67,20 +101,33 @@ class DataGenerator(object):
         Returns:
             a generator, generating all relevant pairs
         """
+        print("In generate sequences!")
 
-        num_quants = len(self._quantifiers)
+        num_quants = self._num_quants
         num_chars = quantifiers.Quantifier.num_chars
-
+        print(q)
         all_gens = []
-        for n in range(1, self._max_len + 1):
-            seqs = itertools.product(range(num_chars), repeat=n)
-            data_n = ((seq, quant) for seq in seqs
-                      for quant in range(num_quants))
-            all_gens.append(data_n)
+        print("all_gens :",all_gens)
+        if q == 'quant1':
+            for n in range(1, self._max_len + 1):
+                #generate 20 elements where product determines each element belongs to which zone
+                seqs = itertools.product(range(num_chars), repeat=n)
+                print(seqs)
+                data_n = ((seq, quant) for seq in seqs
+                          for quant in range(0,num_quants-2))
+                all_gens.append(data_n)
+        elif q == 'quant2':
+            for n in range(1, self._max_len + 1):
+                #generate 20 elements where product determines each element belongs to which zone
+                seqs = itertools.product(range(num_chars), repeat=n)
+                print(seqs)
+                data_n = ((seq, quant) for seq in seqs
+                          for quant in range(num_quants-2,num_quants))
+                all_gens.append(data_n)
 
         return itertools.chain(*all_gens)
 
-    def _generate_random_tuple(self):
+    def _generate_random_tuple(self,q):
         """Generates a random tuple corresponding to an input example.
 
         Returns:
@@ -88,10 +135,21 @@ class DataGenerator(object):
             of a random length up to self._max_len and quant is a random
             integer up to self._num_quants
         """
-        quant = np.random.randint(self._num_quants)
-        length = np.random.randint(1, self._max_len + 1)
-        seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
-                     for _ in range(length)))
+        num_quants = self._num_quants
+        if q == "quant1":
+            temp = [i for i in range(0,num_quants-2)]
+            quant = random.choice(temp)
+            length = np.random.randint(1, self._max_len + 1)
+            seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
+                         for _ in range(length)))
+        elif q == "quant2":
+            temp = [i for i in range(num_quants-2,num_quants)]
+            quant = random.choice(temp)
+            # quant = np.random.randint(range(num_quants-2,num_quants))
+            length = np.random.randint(1, self._max_len + 1)
+            seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
+                         for _ in range(length)))
+
         return seq, quant
 
     def _tuple_to_idx(self, tup):
@@ -142,8 +200,10 @@ class DataGenerator(object):
         """
 
         char_seq, quant_idx = tup
-
+        #chars generates a one hot vector of length equal to number of chars
+        #in the quantifier object.
         chars = tuple(quantifiers.Quantifier.chars[idx] for idx in char_seq)
+        #pad if length of sequence is less than max
         padded_seq = (chars +
                       (quantifiers.Quantifier.zero_char,) *
                       (self._max_len - len(chars)))
@@ -154,7 +214,7 @@ class DataGenerator(object):
 
         return padded_with_quant, label
 
-    def _generate_labeled_data(self, num_data_points, balanced=True):
+    def _generate_labeled_data(self, num_data_points, q,balanced=False):
         """Generates a complete list of labeled data.  Iterates through
         _generate_sequences, calling _point_from_tuple on each tuple generated.
         At the end, the list is shuffled so that the data is in random order.
@@ -170,20 +230,26 @@ class DataGenerator(object):
             a list of all labeled data, in random order.
         """
 
-        self._labeled_data = []
+        temp = []
+
+        #while considering total_possible we only consider elements that can belong to either of the four zones
+        #Hence this is just a permutation of n four dimensional sequences where n is the number of sequqnces to be
+        #generated
         total_possible = self._num_quants * sum(
             quantifiers.Quantifier.num_chars**i
             for i in range(1, self._max_len + 1))
-
         # if the total possible data pool is smaller than requested,
         # just generate all of it
+        # print("Total possible :",total_possible)
+        # print("Points to be generated :",num_data_points)
         if total_possible <= num_data_points:
             print('generating all')
-            for tup in self._generate_sequences():
-                self._labeled_data.append(
+            for tup in self._generate_sequences(q):
+                temp.append(
                     self._point_from_tuple(tup))
         else:
-            # otherwise, generate num_data_points randomly
+            print("Generating more!")
+                        # otherwise, generate num_data_points randomly
             # store which data points have already been generated
             # generated_idxs = bitarray(total_possible)
             generated_idxs = set()
@@ -194,8 +260,9 @@ class DataGenerator(object):
 
             while to_generate > 0:
                 # generate random tuple
-                tup = self._generate_random_tuple()
+                tup = self._generate_random_tuple(q)
                 tup_idx = self._tuple_to_idx(tup)
+                # print("tup_idx : ",tup_idx)
                 # have not generated this data point yet, so add it
                 if tup_idx not in generated_idxs:
                     generated_idxs.add(tup_idx)
@@ -204,7 +271,8 @@ class DataGenerator(object):
                     if balanced:
                         tups[(tup[1], label)].append(seq)
                     else:
-                        self._labeled_data.append((seq, label))
+                        temp.append((seq, label))
+                # print("Generated: ",len(temp))
 
             if balanced:
                 # balance across (Q, T/F), instead of just T/F
@@ -217,22 +285,26 @@ class DataGenerator(object):
                     # add to data
                     for idx in np.nditer(idxs):
                         seq = tups[(qidx, label)][idx]
-                        self._labeled_data.append(
+                        temp.append(
                             (seq, label))
 
-        np.random.shuffle(self._labeled_data)
-        return self._labeled_data
+        np.random.shuffle(temp)
+        return temp
 
     def get_training_data(self):
         """Gets training data, based on the percentage self._training_split.
         Shuffles the training data every time it is called.
         Must be called only after _generate_labeled_data has been.
         """
-
+        self._training_data = None
         if self._training_data is None:
-            idx = int(math.ceil(
-                self._training_split * len(self._labeled_data)))
-            self._training_data = self._labeled_data[:idx]
+            idx1 = int(math.ceil(
+                self._training_split1 * len(self._q1)))
+            temp1 = self._q1[:idx1]
+            idx2 = int(math.ceil(
+                self._training_split2 * len(self._q2)))
+            temp2 = self._q2[:idx2]
+            self._training_data = temp1 + temp2
 
         np.random.shuffle(self._training_data)
         return self._training_data
@@ -241,12 +313,18 @@ class DataGenerator(object):
         """Gets test data, based on the percentage 1 - self._training_split.
         Must be called only after _generate_labeled_data has been.
         """
-
+        self._test_data = None
         if self._test_data is None:
-            idx = int(math.ceil(
-                self._training_split * len(self._labeled_data)))
-            self._test_data = self._labeled_data[idx:]
-
+            # idx = int(math.ceil(
+            #     self._training_split * len(self._labeled_data)))
+            # self._test_data = self._labeled_data[idx:]
+            idx1 = int(math.ceil(
+                self._training_split1 * len(self._q1)))
+            temp1 = self._q1[idx1:]
+            idx2 = int(math.ceil(
+                self._training_split2 * len(self._q2)))
+            temp2 = self._q2[idx2:]
+            self._test_data = temp1 + temp2
         return self._test_data
 
     def write_labeled_data(self, file_path, num_files=256):

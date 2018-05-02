@@ -286,7 +286,7 @@ def experiment_one_a(write_dir='data/exp1a'):
                'num_classes': 2, 'dropout': 1.0,
                'quantifiers': [quantifiers.at_least_n(4),
                                quantifiers.at_least_n_or_at_most_m(6, 2)]}
-    num_trials = 1
+    num_trials = 30
 
     for idx in range(num_trials):
         run_trial(eparams, hparams, idx, write_dir)

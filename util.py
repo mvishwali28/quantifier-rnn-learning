@@ -83,8 +83,11 @@ def read_trials_from_csv(path, trials):
     """
     data = {}
     for trial in trials:
-        data[trial] = pd.DataFrame.from_csv(
-            '{}/trial_{}.csv'.format(path, trial))
+        data[trial] = pd.read_csv(
+            '{}/trial_{}.csv'.format(path, trial),
+            index_col=0,
+            parse_dates=True,
+        )
     return data
 
 
