@@ -8,7 +8,7 @@
 #SBATCH --job-name=conservativity
 #SBATCH --mail-type=END
 #SBATCH --mail-user=netID@nyu.edu
-#SBATCH --output=exp_1_2_10k_b.out.txt
+#SBATCH --output=exp_1_2_5k_b.out.txt
 #SBATCH --gres=gpu:1
 
 # Activate the conda environment
