@@ -8,11 +8,11 @@
 #SBATCH --job-name=conservativity
 #SBATCH --mail-type=END
 #SBATCH --mail-user=netID@nyu.edu
-#SBATCH --output=exp_1_2_10k_c.out.txt
+#SBATCH --output=exp_1_2_5k_c.out.txt
 #SBATCH --gres=gpu:1
 
 # Activate the conda environment
 source activate nlu
 
 # Run the training script
-PYTHONPATH=$PYTHONPATH:. python quant_verify_exp_1_2_10k.py --exp one_c --out_path data/10k/exp-1-c
+PYTHONPATH=$PYTHONPATH:. python quant_verify_exp_1_2_5k.py --exp one_c --out_path data/5k/exp-1-c
