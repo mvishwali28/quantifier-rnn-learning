@@ -14,6 +14,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
+import matplotlib 
+matplotlib.use('Agg')
 
 import itertools as it
 import numpy as np
@@ -21,8 +23,6 @@ import scipy.stats as stats
 from matplotlib import pyplot as plt
 import util
 import argparse
-import matplotlib 
-matplotlib.use('Agg')
 
 # COLORS = ["blue", "red", "green", "brown", "purple", "orange"]
 COLORS = ["#377eb8", "#ff7f00", "#4daf4a", "#f781bf", "#a65628", "#984ea3", "#999999", "#e41a1c", "#dede00"]
