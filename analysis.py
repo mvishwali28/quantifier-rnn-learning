@@ -65,7 +65,7 @@ def experiment_analysis(path, quants, path_tosave, title, trials=range(30), plot
 
 
 def experiment_one_a_10k_analysis():
-    experiment_analysis("results/10k/exp-1-a", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/10k/4c_0nc_10k.png", "4c:0nc")
+    experiment_analysis("results/10k/exp-1-a/run_2", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/10k/run_2.4c_0nc_10k.png", "4c:0nc")
 
 
 def experiment_one_b_10k_analysis():
@@ -85,7 +85,7 @@ def experiment_one_e_10k_analysis():
 
 
 def experiment_one_a_30k_analysis():
-    experiment_analysis("results/30k/exp-1-a", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/30k/4c_0nc_30k.png", "4c:0nc")
+    experiment_analysis("results/30k/exp-1-a/run_2", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/30k/run_2.4c_0nc_30k.png", "4c:0nc")
 
 
 def experiment_one_b_30k_analysis():
