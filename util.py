@@ -15,8 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
 
-from tensorboard.backend.event_processing \
-    import event_accumulator as ea
+#from tensorboard.backend.event_processing \
+#    import event_accumulator as ea
 import pandas as pd
 
 
@@ -34,7 +34,7 @@ def convert_trials_to_csv(in_path, trials, out_path):
         trials: names of trials to read
         out_path: path to write CSV files to
     """
-    acc = ea.EventAccumulator(in_path)
+#    acc = ea.EventAccumulator(in_path)
     acc.Reload()
 
     for trial in trials:

@@ -71,7 +71,11 @@ def experiment_one_a_10k_analysis():
 
 
 def experiment_one_b_10k_analysis():
+<<<<<<< HEAD
     experiment_analysis("results/10k/exp-1-b/run_2"", ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "plots_training/10k/run_2"/3c_1nc_10k.png", "3c:1nc")
+=======
+    experiment_analysis("results/10k/exp-1-b/run_2", ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "plots_training/10k/run_2.3c_1nc_10k.png", "3c:1nc")
+>>>>>>> 1ddaf2b24ba909bac5d86fa0c50a82877075b052
 
 
 def experiment_one_c_10k_analysis():
@@ -91,7 +95,11 @@ def experiment_one_a_30k_analysis():
 
 
 def experiment_one_b_30k_analysis():
+<<<<<<< HEAD
     experiment_analysis("results/30k/exp-1-b/run_2"", ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "plots_training/30k/run_2"/3c_1nc_30k.png", "3c:1nc")
+=======
+    experiment_analysis("results/30k/exp-1-b/run_2", ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "plots_training/30k/run_2.3c_1nc_30k.png", "3c:1nc")
+>>>>>>> 1ddaf2b24ba909bac5d86fa0c50a82877075b052
 
 
 def experiment_one_c_30k_analysis():
