@@ -37,7 +37,7 @@ class DataGenerator(object):
 
     # TODO: document; mode = r, w, g [generate]; remove r, w?
     def __init__(self, max_len, quants1,quants2,
-                 training_split1=0.7,training_split2 = 0.5, mode='g', file_path='/tmp/quantexp/data/',
+                 training_split1=(8/9),training_split2 = 0.5, mode='g', file_path='/tmp/quantexp/data/',
                  bin_size=1e6, num_data_points1=10000,num_data_points2=10000):
 
         self._max_len = max_len
@@ -52,12 +52,61 @@ class DataGenerator(object):
         self._quantifiers = quants1 + quants2
         self._q1 = []
         self._q2 = []
+        self._q3 = []
+        self._q4 = []
+        self._q5 = []
+        self._q6 = []
         print("Data generator object created!")
         q1 = []
         q2 = []
+        q3 = []
+        q4 = []
+        q5 = []
+        q6 = []
         if mode == 'g':
-            q1 = self._generate_labeled_data(num_data_points1,'quant1')
+            num_points1 = num_data_points1/4
+            num_points2 = num_data_points2/2
+            q1 = self._generate_labeled_data(num_points1,'quant1')
+            q2 = self._generate_labeled_data(num_points1,'quant2')
+            q3 = self._generate_labeled_data(num_points1,'quant3')
+            q4 = self._generate_labeled_data(num_points1,'quant4')
+            q5 = self._generate_labeled_data(num_points2,'quant5')
+            q6 = self._generate_labeled_data(num_points2,'quant6')
             self._q1 = q1
+            self._q2 = q2
+            self._q3 = q3
+            self._q4 = q4
+            self._q5 = q5
+            self._q6 = q6
+            # print("Quantifier 1:",q1[0])
+            # print(len(q1))
+            # print("*************************")
+            # print("Quantifier 2:",q2[0])
+            # print(len(q2))
+            # print("*************************")
+            # print("Quantifier 3:",q3[0])
+            # print(len(q3))
+            # print("*************************")
+            # print("Quantifier 4:",q4[0])
+            # print(len(q4))
+            # print("*************************")
+            # print("Quantifier 5:",q5[0])
+            # print(len(q5))
+            # print("*************************")
+            # print("Quantifier 6:",q6[0])
+            # print(len(q6))
+            # print("*************************")
+
+            # p1 = [i[0][0][4] for i in q1]
+            # print("Quantifier 1 : ",sum(p1))
+            # p2 = [i[0][0][5] for i in q1]
+            # print("Quantifier 2 : ",sum(p2))
+            # p3 = [i[0][0][6] for i in q1]
+            # print("Quantifier 3 : ",sum(p3))
+            # p4 = [i[0][0][7] for i in q1]
+            # print("Quantifier 4 : ",sum(p4))
+
+
             # positive = [i[1][0] for i in q1]
             # p1 = sum(positive)
             # print(p1)
@@ -66,9 +115,13 @@ class DataGenerator(object):
             #     print("******************")
             #     print(q1[i])
 
-            print("Number of data points generated :",len(q1))
-            q2 = self._generate_labeled_data(num_data_points2,'quant2')
-            self._q2 = q2
+            # print("Number of data points generated :",len(q1))
+            # q2 = self._generate_labeled_data(num_data_points2,'quant2')
+            # self._q2 = q2
+            # p5 = [i[0][0][8] for i in q2]
+            # print("Quantifier 5 : ",sum(p5))
+            # p6 = [i[0][0][9] for i in q2]
+            # print("Quantifier 6 : ",sum(p6))
             # p = [i[1][0] for i in q2]
             # p2 = sum(p)
             # print("For q2 :",p2)
@@ -77,12 +130,25 @@ class DataGenerator(object):
             # for i in range(0,20):
             #     print("******************")
             #     print(q2[i])
-            print("Number of data points generated :",len(q2))
-            # print(type(q1))
-            temp = q1 + q2
-            print(len(temp))
+            # print("Number of data points generated :",len(q2))
+            # # print(type(q1))
+            # temp = q1 + q2
+            # print(len(temp))
             # print(temp)
-            # self._labeled_data = q1 + q2
+            self._labeled_data = q1 + q2 + q3 + q4 + q5 + q6
+            # temp = self._labeled_data
+            # p1 = [i[0][0][4] for i in temp]
+            # print("Quantifier 1 : ",sum(p1))
+            # p1 = [i[0][0][5] for i in temp]
+            # print("Quantifier 2 : ",sum(p1))
+            # p1 = [i[0][0][6] for i in temp]
+            # print("Quantifier 3 : ",sum(p1))
+            # p1 = [i[0][0][7] for i in temp]
+            # print("Quantifier 4 : ",sum(p1))
+            # p1 = [i[0][0][8] for i in temp]
+            # print("Quantifier 5 : ",sum(p1))
+            # p1 = [i[0][0][9] for i in temp]
+            # print("Quantifier 6 : ",sum(p1))
         elif mode == 'w':
             self.write_labeled_data(file_path, bin_size)
         elif mode == 'r':
@@ -135,20 +201,35 @@ class DataGenerator(object):
             of a random length up to self._max_len and quant is a random
             integer up to self._num_quants
         """
-        num_quants = self._num_quants
+        # num_quants = self._num_quants
+        length = np.random.randint(1, self._max_len + 1)
+        seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
+                     for _ in range(length)))
         if q == "quant1":
-            temp = [i for i in range(0,num_quants-2)]
-            quant = random.choice(temp)
-            length = np.random.randint(1, self._max_len + 1)
-            seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
-                         for _ in range(length)))
+            quant = 0
         elif q == "quant2":
-            temp = [i for i in range(num_quants-2,num_quants)]
-            quant = random.choice(temp)
-            # quant = np.random.randint(range(num_quants-2,num_quants))
-            length = np.random.randint(1, self._max_len + 1)
-            seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
-                         for _ in range(length)))
+            quant = 1
+        elif q == "quant3":
+            quant = 2
+        elif q == "quant4":
+            quant = 3
+        elif q == "quant5":
+            quant = 4
+        elif q == "quant6":
+            quant = 5
+        # if q == "quant1":
+        #     temp = [i for i in range(0,num_quants-2)]
+        #     quant = random.choice(temp)
+        #     length = np.random.randint(1, self._max_len + 1)
+        #     seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
+        #                  for _ in range(length)))
+        # elif q == "quant2":
+        #     temp = [i for i in range(num_quants-2,num_quants)]
+        #     quant = random.choice(temp)
+        #     # quant = np.random.randint(range(num_quants-2,num_quants))
+        #     length = np.random.randint(1, self._max_len + 1)
+        #     seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
+        #                  for _ in range(length)))
 
         return seq, quant
 
@@ -248,7 +329,7 @@ class DataGenerator(object):
                 temp.append(
                     self._point_from_tuple(tup))
         else:
-            print("Generating more!")
+            # print("Generating more!")
                         # otherwise, generate num_data_points randomly
             # store which data points have already been generated
             # generated_idxs = bitarray(total_possible)
@@ -301,10 +382,14 @@ class DataGenerator(object):
             idx1 = int(math.ceil(
                 self._training_split1 * len(self._q1)))
             temp1 = self._q1[:idx1]
+            temp2 = self._q2[:idx1]
+            temp3 = self._q3[:idx1]
+            temp4 = self._q4[:idx1]
             idx2 = int(math.ceil(
-                self._training_split2 * len(self._q2)))
-            temp2 = self._q2[:idx2]
-            self._training_data = temp1 + temp2
+                self._training_split2 * len(self._q5)))
+            temp5 = self._q5[:idx2]
+            temp6 = self._q6[:idx2]
+            self._training_data = temp1 + temp2 + temp3 +temp4 + temp5 + temp6
 
         np.random.shuffle(self._training_data)
         return self._training_data
@@ -321,10 +406,15 @@ class DataGenerator(object):
             idx1 = int(math.ceil(
                 self._training_split1 * len(self._q1)))
             temp1 = self._q1[idx1:]
+            temp2 = self._q2[idx1:]
+            temp3 = self._q3[idx1:]
+            temp4 = self._q4[idx1:]
             idx2 = int(math.ceil(
-                self._training_split2 * len(self._q2)))
-            temp2 = self._q2[idx2:]
-            self._test_data = temp1 + temp2
+                self._training_split2 * len(self._q5)))
+            temp5 = self._q5[idx2:]
+            temp6 = self._q6[idx2:]
+
+            self._test_data = temp1 + temp2 +temp3+ temp4 + temp5 + temp6
         return self._test_data
 
     def write_labeled_data(self, file_path, num_files=256):
