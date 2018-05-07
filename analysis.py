@@ -14,8 +14,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
-import matplotlib 
-matplotlib.use('Agg')
+# import matplotlib
+# matplotlib.use('Agg')
 
 import itertools as it
 import numpy as np
@@ -66,28 +66,8 @@ def experiment_analysis(path, quants, path_tosave, title, trials=range(30), plot
     print()
 
 
-def experiment_one_a_10k_analysis():
-    experiment_analysis("results/10k/exp-1-a/run_2", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/10k/run_2/run_2.4c_0nc_10k.png", "4c:0nc")
-
-
-def experiment_one_b_10k_analysis():
-    experiment_analysis("results/10k/exp-1-b/run_3", ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "plots_training/10k/run_3/run_3.3c_1nc_10k.png", "3c:1nc")
-
-
-def experiment_one_c_10k_analysis():
-    experiment_analysis("results/10k/exp-1-c/run_2", ["all", "only", "not_all", "most_AB", "not_only", "most_BA"], "plots_training/10k/run_2/run_2.2c_2nc_10k.png", "2c:2nc")
-
-
-def experiment_one_d_10k_analysis():
-    experiment_analysis("results/10k/exp-1-d/run_2", ["all", "only", "not_all", "not_only", "most_BA", "most_not_BA"], "plots_training/10k/run_2/run_2.1c_3nc_10k.png", "1c:3nc")
-
-
-def experiment_one_e_10k_analysis():
-    experiment_analysis("results/10k/exp-1-e/run_2", ["all", "only", "not_only", "most_BA", "most_not_BA", "exactly_half_BA"], "plots_training/10k/run_2/run_2.0c_4nc_10k.png", "0c:4nc")
-
-
 def experiment_one_a_30k_analysis():
-    experiment_analysis("results/30k/exp-1-a/run_2", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/30k/run_2/run_2.4c_0nc_30k.png", "4c:0nc")
+    experiment_analysis("results/30k/exp-1-a/run_3", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/30k/run_3/run_3.4c_0nc_30k.png", "4c:0nc")
 
 
 def experiment_one_b_30k_analysis():
@@ -431,16 +411,11 @@ if __name__ == "__main__":
     parser.add_argument("--exp", help="which experiment to run", type=str)
     args = parser.parse_args()
     func_map = {
-        "one_a": experiment_one_a_10k_analysis,
-        "one_b": experiment_one_b_10k_analysis,
-        "one_c": experiment_one_c_10k_analysis,
-        "one_d": experiment_one_d_10k_analysis,
-        "one_e": experiment_one_e_10k_analysis,
-        "two_a": experiment_one_a_30k_analysis,
-        "two_b": experiment_one_b_30k_analysis,
-        "two_c": experiment_one_c_30k_analysis,
-        "two_d": experiment_one_d_30k_analysis,
-        "two_e": experiment_one_e_30k_analysis,
+        "a": experiment_one_a_30k_analysis,
+        "b": experiment_one_b_30k_analysis,
+        "c": experiment_one_c_30k_analysis,
+        "d": experiment_one_d_30k_analysis,
+        "e": experiment_one_e_30k_analysis,
     }
 
     func = func_map[args.exp]
