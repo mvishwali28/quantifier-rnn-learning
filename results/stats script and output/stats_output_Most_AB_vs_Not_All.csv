@@ -1,6 +1,6 @@
 group,step,direction,most_AB,not_all,t,p,sig
 30k-4c:0nc,1,most_AB < not_all,0.4942074,0.6036593,-2.533851,0.013031274,not sig
-30k-4c:0nc,51,most_AB < not_all,0.5055407,0.6638222,-3.903956,0.000183759,not sig
+30k-4c:0nc,51,most_AB < not_all,0.5055407,0.6638222,-3.903956,0.000183759,sig
 30k-4c:0nc,101,most_AB < not_all,0.5174222,0.7142519,-5.181738,1.36E-06,sig
 30k-4c:0nc,151,most_AB < not_all,0.5266815,0.7570963,-6.39019,7.40E-09,sig
 30k-4c:0nc,201,most_AB < not_all,0.5316,0.787837,-7.788443,1.18E-11,sig
