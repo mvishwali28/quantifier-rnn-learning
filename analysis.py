@@ -25,7 +25,7 @@ import util
 import argparse
 
 # 1-5, specify manually
-run = 1
+run = 5
 
 COLORS = ["#377eb8", "#ff7f00", "#4daf4a", "#f781bf", "#a65628", "#984ea3", "#999999", "#e41a1c", "#dede00"]
 
@@ -280,7 +280,7 @@ def make_plot(data, quants, path_tosave, title, ylim=None, threshold=0.95):
     plt.legend(loc=4)
     plt.xlabel("Global step")
     plt.ylabel("Accuracy")
-    plt.savefig(path_tosave, dpi=500)
+    plt.savefig(path_tosave, dpi=500, bbox_inches="tight")
     plt.close()
 
     """
