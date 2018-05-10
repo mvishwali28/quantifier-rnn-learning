@@ -24,9 +24,36 @@ from matplotlib import pyplot as plt
 import util
 import argparse
 
-# COLORS = ["blue", "red", "green", "brown", "purple", "orange"]
+# 1-5, specify manually
+run = 1
+
 COLORS = ["#377eb8", "#ff7f00", "#4daf4a", "#f781bf", "#a65628", "#984ea3", "#999999", "#e41a1c", "#dede00"]
-linestyles = ["-", "-.", "--", ":"]
+
+dash_map = {
+    "all": (5, 2),
+    "only": (5, 2),
+    "not_all": (2, 5),
+    "not_only": (2, 5),
+    "most_AB": (4, 10),
+    "most_BA": (4, 10),
+    "most_not_AB": (3, 3, 2, 2),
+    "most_not_BA": (3, 3, 2, 2),
+    "exactly_half_AB": (5, 2, 20, 2),
+    "exactly_half_BA": (5, 2, 20, 2),
+}
+
+color_map = {
+    "all": "#377eb8",
+    "only": "#e41a1c",
+    "not_all": "#999999",
+    "not_only": "#999999",
+    "most_AB": "#999999",
+    "most_BA": "#999999",
+    "most_not_AB": "#999999",
+    "most_not_BA": "#999999",
+    "exactly_half_AB": "#999999",
+    "exactly_half_BA": "#999999",
+}
 
 # Conservative quantifiers
 quants_c = ["all", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"]
@@ -67,23 +94,23 @@ def experiment_analysis(path, quants, path_tosave, title, trials=range(30), plot
 
 
 def experiment_one_a_30k_analysis():
-    experiment_analysis("results/30k/exp-1-a/run_3", ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/30k/run_3/run_3.4c_0nc_30k.png", "4c:0nc")
+    experiment_analysis("results/30k/exp-1-a/run_{}".format(run), ["all", "only", "not_all", "most_AB", "most_not_AB", "exactly_half_AB"], "plots_training/30k/run_{0}/run_{0}.4c_0nc_30k.png".format(run), "4c:0nc")
 
 
 def experiment_one_b_30k_analysis():
-    experiment_analysis("results/30k/exp-1-b/run_3", ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "plots_training/30k/run_3/run_3.3c_1nc_30k.png", "3c:1nc")
+    experiment_analysis("results/30k/exp-1-b/run_{}".format(run), ["all", "only", "not_all", "most_AB", "most_not_AB", "not_only"], "plots_training/30k/run_{0}/run_{0}.3c_1nc_30k.png".format(run), "3c:1nc")
 
 
 def experiment_one_c_30k_analysis():
-    experiment_analysis("results/30k/exp-1-c/run_2", ["all", "only", "not_all", "most_AB", "not_only", "most_BA"], "plots_training/30k/run_2/run_2.2c_2nc_30k.png", "2c:2nc")
+    experiment_analysis("results/30k/exp-1-c/run_{}".format(run), ["all", "only", "not_all", "most_AB", "not_only", "most_BA"], "plots_training/30k/run_{0}/run_{0}.2c_2nc_30k.png".format(run), "2c:2nc")
 
 
 def experiment_one_d_30k_analysis():
-    experiment_analysis("results/30k/exp-1-d/run_2", ["all", "only", "not_all", "not_only", "most_BA", "most_not_BA"], "plots_training/30k/run_2/run_2.1c_3nc_30k.png", "1c:3nc")
+    experiment_analysis("results/30k/exp-1-d/run_{}".format(run), ["all", "only", "not_all", "not_only", "most_BA", "most_not_BA"], "plots_training/30k/run_{0}/run_{0}.1c_3nc_30k.png".format(run), "1c:3nc")
 
 
 def experiment_one_e_30k_analysis():
-    experiment_analysis("results/30k/exp-1-e/run_2", ["all", "only", "not_only", "most_BA", "most_not_BA", "exactly_half_BA"], "plots_training/30k/run_2/run_2.0c_4nc_30k.png", "0c:4nc")
+    experiment_analysis("results/30k/exp-1-e/run_{}".format(run), ["all", "only", "not_only", "most_BA", "most_not_BA", "exactly_half_BA"], "plots_training/30k/run_{0}/run_{0}.0c_4nc_30k.png".format(run), "0c:4nc")
 
 
 def remove_bad_trials(data, threshold=0.60):
@@ -235,35 +262,21 @@ def make_plot(data, quants, path_tosave, title, ylim=None, threshold=0.95):
     longest_x = get_max_steps(data)
     for idx in range(len(quants)):
 
-        # C style
-        if quants[idx] in quants_c[1:]:
-            lines = "-"
-            color = COLORS[idx]
-        # NC style
-        if quants[idx] in quants_nc[1:]:
-            lines = "-."
-            color = COLORS[idx]
-        # Test style
-        if quants[idx] == "all":
-            lines = ":"
-            color = "#377eb8"
-        if quants[idx] == "only":
-            lines = ":"
-            color = "#ff7f00"
-
         plt.plot(longest_x,
                  smooth_data(medians_by_quant[idx]),
-                 color,
-                 label=quants[idx],
-                 linewidth=1.5,
-                 linestyle=lines)
+                 color=color_map[quants[idx]],
+                 label=quants[idx].replace("_", " "),
+                 # linewidth=1.5,
+                 linestyle="--",
+                 dashes=dash_map[quants[idx]],
+                 )
 
     # max_x = max([len(ls) for ls in medians_by_quant])
     # plt.plot(longest_x, [threshold for _ in range(max_x)],
     #          linestyle="dashed", color="#4daf4a")
     if ylim:
         plt.ylim(ylim)
-    plt.title(title)
+    # plt.title(title)
     plt.legend(loc=4)
     plt.xlabel("Global step")
     plt.ylabel("Accuracy")
