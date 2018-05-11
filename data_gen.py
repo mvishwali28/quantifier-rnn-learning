@@ -27,7 +27,7 @@ from collections import defaultdict
 
 import numpy as np
 
-import quantifiers
+import quantifiers_exp_1_2
 
 # TODO: move batching logic from quant_verify.run_experiment to here?
 # TODO: roll-back the writing to files logic?
@@ -170,7 +170,7 @@ class DataGenerator(object):
         print("In generate sequences!")
 
         num_quants = self._num_quants
-        num_chars = quantifiers.Quantifier.num_chars
+        num_chars = quantifiers_exp_1_2.Quantifier.num_chars
         print(q)
         all_gens = []
         print("all_gens :",all_gens)
@@ -203,7 +203,7 @@ class DataGenerator(object):
         """
         # num_quants = self._num_quants
         length = np.random.randint(1, self._max_len + 1)
-        seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
+        seq = tuple((np.random.randint(quantifiers_exp_1_2.Quantifier.num_chars)
                      for _ in range(length)))
         if q == "quant1":
             quant = 0
@@ -217,19 +217,6 @@ class DataGenerator(object):
             quant = 4
         elif q == "quant6":
             quant = 5
-        # if q == "quant1":
-        #     temp = [i for i in range(0,num_quants-2)]
-        #     quant = random.choice(temp)
-        #     length = np.random.randint(1, self._max_len + 1)
-        #     seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
-        #                  for _ in range(length)))
-        # elif q == "quant2":
-        #     temp = [i for i in range(num_quants-2,num_quants)]
-        #     quant = random.choice(temp)
-        #     # quant = np.random.randint(range(num_quants-2,num_quants))
-        #     length = np.random.randint(1, self._max_len + 1)
-        #     seq = tuple((np.random.randint(quantifiers.Quantifier.num_chars)
-        #                  for _ in range(length)))
 
         return seq, quant
 
@@ -253,7 +240,7 @@ class DataGenerator(object):
         return (quant +
                 self._num_quants *
                 sum(seq[i] *
-                    (quantifiers.Quantifier.num_chars ** (upper_bound - i))
+                    (quantifiers_exp_1_2.Quantifier.num_chars ** (upper_bound - i))
                     for i in range(len(seq))) +
                 self._num_quants * sum(4**i for i in range(1, len(seq))))
 
@@ -283,10 +270,10 @@ class DataGenerator(object):
         char_seq, quant_idx = tup
         #chars generates a one hot vector of length equal to number of chars
         #in the quantifier object.
-        chars = tuple(quantifiers.Quantifier.chars[idx] for idx in char_seq)
+        chars = tuple(quantifiers_exp_1_2.Quantifier.chars[idx] for idx in char_seq)
         #pad if length of sequence is less than max
         padded_seq = (chars +
-                      (quantifiers.Quantifier.zero_char,) *
+                      (quantifiers_exp_1_2.Quantifier.zero_char,) *
                       (self._max_len - len(chars)))
         padded_with_quant = tuple(
             np.concatenate([char, self._quant_labels[quant_idx]])
@@ -317,7 +304,7 @@ class DataGenerator(object):
         #Hence this is just a permutation of n four dimensional sequences where n is the number of sequqnces to be
         #generated
         total_possible = self._num_quants * sum(
-            quantifiers.Quantifier.num_chars**i
+            quantifiers_exp_1_2.Quantifier.num_chars**i
             for i in range(1, self._max_len + 1))
         # if the total possible data pool is smaller than requested,
         # just generate all of it
