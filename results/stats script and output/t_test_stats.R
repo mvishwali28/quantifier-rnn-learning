@@ -126,4 +126,54 @@ t_test_sweep_steps("30k\\exp-1-d",
 t_test_sweep_steps("30k\\exp-1-e", 
                    1, 3001, group = "30k-0c:4nc",  output_file = "stats_output_Most_BA_vs_Only.csv", q2 = "only", q1 = "most_BA")
 
+##pull out mean and median for all and only
+
+
+exps = c("exp-1-a\\", "exp-1-b\\", "exp-1-c\\", "exp-1-d\\", "exp-1-e\\")
+runs = c("run_1\\", "run_2\\", "run_3\\")
+
+
+
+
+overall_data <- data.frame(
+  all_accuracy=numeric(),
+  only_accuracy=numeric(),
+  global_step = numeric(),
+  stringsAsFactors=FALSE
+)
+
+
+for (exp in exps){
+  for (run in runs){
+    file_list = list.files(path = paste(exp, run, sep = ""), pattern="*.csv")
+    data_temp <- 
+      do.call("rbind", 
+              lapply(file_list, 
+                     function(x) 
+                       read.csv(paste(paste(exp, run, sep = ""), x, sep=''), 
+                                stringsAsFactors = FALSE)))
+
+    data_temp = select(data_temp, all_accuracy, only_accuracy, global_step)
+    overall_data = rbind(overall_data, data_temp)
+    
+  }
+}
+
+dim(overall_data)
+
+final_stage = filter(overall_data, global_step == 12701)
+dim(final_stage)
+
+print('range: all')
+print(range(final_stage$all_accuracy))
+print('mean: all')
+print(mean(final_stage$all_accuracy))
+print('median: all')
+print(median(final_stage$all_accuracy))
+print('range: only')
+print(range(final_stage$only_accuracy))
+print('mean: only')
+print(mean(final_stage$only_accuracy))
+print('median: only')
+print(median(final_stage$only_accuracy))
 
